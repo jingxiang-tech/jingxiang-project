@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan
 @Configuration
-@MapperScan("com.inbyte.component.common.basic.dao")
+@MapperScan("com.jingxiang.component.common.basic.dao")
 public class CommonBasicConfiguration {
 }

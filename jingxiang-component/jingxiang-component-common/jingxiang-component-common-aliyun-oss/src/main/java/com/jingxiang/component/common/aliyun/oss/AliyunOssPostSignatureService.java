@@ -60,7 +60,7 @@ public class AliyunOssPostSignatureService {
 
     private final ObjectStorageMapper objectStorageMapper;
 
-    @Value("${inbyte.app.server}")
+    @Value("${jingxiang.app.server}")
     private String appServer;
 
     /**

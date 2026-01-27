@@ -66,7 +66,7 @@ public class CommonExceptionResolver {
     }
 
     /**
-     * inbyte错误拦截
+     * 全局错误拦截
      *
      * @param e
      * @return

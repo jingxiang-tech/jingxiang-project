@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@ConfigurationProperties(prefix = "inbyte.component.common.dict")
+@ConfigurationProperties(prefix = "jingxiang.component.common.dict")
 public class ComponentDictProperties {
 
     private List<String> path;

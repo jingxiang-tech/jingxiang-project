@@ -106,14 +106,14 @@
 
     <distributionManagement>
         <repository>
-            <id>jingxiang-maven-releases</id>
-            <name>jingxiang-maven-releases</name>
-            <url>https://nexus.jingxiang.cc/repository/maven-releases/</url>
+            <id>inbyte-maven-releases</id>
+            <name>inbyte-maven-releases</name>
+            <url>https://nexus.inbyte.cc/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>jingxiang-maven-snapshots</id>
-            <name>jingxiang-maven-snapshots</name>
-            <url>https://nexus.jingxiang.cc/repository/maven-snapshots/</url>
+            <id>inbyte-maven-snapshots</id>
+            <name>inbyte-maven-snapshots</name>
+            <url>https://nexus.inbyte.cc/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 

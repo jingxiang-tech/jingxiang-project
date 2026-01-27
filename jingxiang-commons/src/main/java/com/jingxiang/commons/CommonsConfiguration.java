@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @author: chenjw
  * @date: 2020/12/22
  */
-@ComponentScan("com.inbyte.commons")
+@ComponentScan("com.jingxiang.commons")
 @Configuration
 public class CommonsConfiguration {
 

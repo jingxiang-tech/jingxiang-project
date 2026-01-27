@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan
 @Configuration
-@MapperScan("com.inbyte.component.common.dict.dao")
+@MapperScan("com.jingxiang.component.common.dict.dao")
 public class DictConfiguration {
 
 }

@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan
 @Configuration
-@MapperScan(basePackages = "com.inbyte.component.common.aliyun.oss.dao")
+@MapperScan(basePackages = "com.jingxiang.component.common.aliyun.oss.dao")
 public class CommonAliyunOssConfiguration {
 }

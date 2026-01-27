@@ -36,8 +36,7 @@ public class DictService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        init("com.inbyte.commons.model.dict", "com.inbyte.commons.model.enums", "com.inbyte.component");
-//        init("com.inbyte");
+        init("com.jingxiang.commons.model.dict", "com.jingxiang.commons.model.enums", "com.jingxiang.component");
         long startTime = System.currentTimeMillis();
         if (componentDictProperties.getPath() != null) {
             componentDictProperties.getPath().forEach(e -> init(e));
@@ -123,7 +122,7 @@ public class DictService implements InitializingBean {
             }
             SYSTEM_DICT_CACHE.put(dictName.replace(DICT_SUFFIX, ""), dict);
         } catch (Exception e) {
-            log.warn("枚举字典{}命名不规范, 请增加字段code和name, 否则无法加入字典池, 详情请参考:https://github.com/inbytecc/inbyte-component/blob/dev/inbyte-component-common/inbyte-component-common-dict/README.md", dictName);
+            log.warn("枚举字典{}命名不规范, 请增加字段code和name, 否则无法加入字典池, 详情请参考:https://github.com/inbytecc/jingxiang-component/blob/dev/jingxiang-component-common/jingxiang-component-common-dict/README.md", dictName);
         }
     }
 
@@ -142,7 +141,7 @@ public class DictService implements InitializingBean {
             }
             SYSTEM_DICT_CACHE.put(dictName.toLowerCase().replace(ENUM_SUFFIX, ""), dict);
         } catch (Exception e) {
-            log.warn("枚举字典{}命名不规范, 请增加字段【name】, 否则无法加入字典池, 详情请参考:https://github.com/inbytecc/inbyte-component/blob/dev/inbyte-component-common/inbyte-component-common-dict/README.md", dictName);
+            log.warn("枚举字典{}命名不规范, 请增加字段【name】, 否则无法加入字典池, 详情请参考:https://github.com/inbytecc/jingxiang-component/blob/dev/jingxiang-component-common/jingxiang-component-common-dict/README.md", dictName);
         }
     }
 

@@ -28,10 +28,10 @@ public class DictController {
     /**
      * 常规字典查询
      * <p>
-     * 使用方法：https://d-app.inbyte.cc/api/dict/【字典名称】</br>
-     * 例如运动类型为sportType, 则查询地址为: https://d-app.inbyte.cc/api/dict/sportType </br>
-     * 订单状态： https://d-app.inbyte.cc/api/dict/orderStatus </br>
-     * 订单类型： https://d-app.inbyte.cc/api/dict/orderType </br>
+     * 使用方法：https://d-app.jingxiang.cc/api/dict/【字典名称】</br>
+     * 例如运动类型为sportType, 则查询地址为: https://d-app.jingxiang.cc/api/dict/sportType </br>
+     * 订单状态： https://d-app.jingxiang.cc/api/dict/orderStatus </br>
+     * 订单类型： https://d-app.jingxiang.cc/api/dict/orderType </br>
      * @param dictCode 字典名称
      * @return
      */
@@ -44,10 +44,10 @@ public class DictController {
      * 树结构字典
      *
      * <p>
-     * 使用方法：https://d-app.inbyte.cc/api/dict/【字典名称】</br>
-     * 例如运动类型为sportType, 则查询地址为: https://d-app.inbyte.cc/api/dict/sportType </br>
-     * 订单状态： https://d-app.inbyte.cc/api/dict/orderStatus </br>
-     * 订单类型： https://d-app.inbyte.cc/api/dict/orderType </br>
+     * 使用方法：https://d-app.jingxiang.cc/api/dict/【字典名称】</br>
+     * 例如运动类型为sportType, 则查询地址为: https://d-app.jingxiang.cc/api/dict/sportType </br>
+     * 订单状态： https://d-app.jingxiang.cc/api/dict/orderStatus </br>
+     * 订单类型： https://d-app.jingxiang.cc/api/dict/orderType </br>
      * @param dictCode 字典名称
      * @return
      */
