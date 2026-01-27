@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.inbyte.component.common.dict.dao.InbyteDictMapper">
 
-    <select id="dictList" resultType="com.inbyte.commons.model.dto.Dict">
+    <select id="dictList" resultType="com.jingxiang.commons.model.dto.Dict">
         SELECT di.code,
                di.name
           FROM inbyte_dict d

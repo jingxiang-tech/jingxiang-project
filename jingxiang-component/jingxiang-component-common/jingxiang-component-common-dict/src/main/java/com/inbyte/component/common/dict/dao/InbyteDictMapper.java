@@ -1,6 +1,6 @@
 package com.inbyte.component.common.dict.dao;
 
-import com.inbyte.commons.model.dto.Dict;
+import com.jingxiang.commons.model.dto.Dict;
 import com.inbyte.component.common.dict.model.DictItemBrief;
 import com.inbyte.component.common.dict.model.DictItemTreeBrief;
 

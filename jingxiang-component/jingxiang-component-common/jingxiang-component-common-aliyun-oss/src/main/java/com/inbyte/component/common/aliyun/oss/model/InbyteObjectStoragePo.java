@@ -3,9 +3,8 @@ package com.inbyte.component.common.aliyun.oss.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.inbyte.commons.model.enums.FileTypeEnum;
-import com.inbyte.commons.model.enums.AccountTypeEnum;
-import jakarta.validation.constraints.NotNull;
+import com.jingxiang.commons.model.enums.FileTypeEnum;
+import com.jingxiang.commons.model.enums.AccountTypeEnum;
 import lombok.*;
 
 import java.time.LocalDateTime;

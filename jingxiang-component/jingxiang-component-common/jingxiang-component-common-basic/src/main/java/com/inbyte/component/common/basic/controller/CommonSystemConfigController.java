@@ -1,7 +1,7 @@
 package com.inbyte.component.common.basic.controller;
 
 import com.alibaba.fastjson2.JSON;
-import com.inbyte.commons.model.dto.R;
+import com.jingxiang.commons.model.dto.R;
 import com.inbyte.component.common.basic.service.CommonSystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

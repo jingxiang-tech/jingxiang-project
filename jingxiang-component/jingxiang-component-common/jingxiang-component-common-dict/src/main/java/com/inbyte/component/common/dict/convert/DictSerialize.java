@@ -2,7 +2,7 @@ package com.inbyte.component.common.dict.convert;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.inbyte.commons.model.dict.WhetherDict;
+import com.jingxiang.commons.model.dict.WhetherDict;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

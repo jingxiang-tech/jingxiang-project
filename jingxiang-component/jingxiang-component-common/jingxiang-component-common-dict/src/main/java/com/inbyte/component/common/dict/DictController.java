@@ -1,6 +1,6 @@
 package com.inbyte.component.common.dict;
 
-import com.inbyte.commons.model.dto.R;
+import com.jingxiang.commons.model.dto.R;
 import com.inbyte.component.common.dict.model.DictItemBrief;
 import com.inbyte.component.common.dict.model.DictItemTreeBrief;
 import org.springframework.beans.factory.annotation.Autowired;

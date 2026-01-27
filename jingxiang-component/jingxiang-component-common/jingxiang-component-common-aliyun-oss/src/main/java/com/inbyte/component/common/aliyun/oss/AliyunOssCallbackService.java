@@ -2,8 +2,8 @@ package com.inbyte.component.common.aliyun.oss;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.oss.common.utils.BinaryUtil;
-import com.inbyte.commons.model.dict.WhetherDict;
-import com.inbyte.commons.util.StringUtil;
+import com.jingxiang.commons.model.dict.WhetherDict;
+import com.jingxiang.commons.util.StringUtil;
 import com.inbyte.component.common.aliyun.oss.dao.ObjectStorageMapper;
 import com.inbyte.component.common.aliyun.oss.model.AliyunOssCallbackDto;
 import com.inbyte.component.common.aliyun.oss.model.InbyteObjectStoragePo;

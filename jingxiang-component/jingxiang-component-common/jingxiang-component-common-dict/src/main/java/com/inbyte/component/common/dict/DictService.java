@@ -2,7 +2,7 @@ package com.inbyte.component.common.dict;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.inbyte.commons.model.dto.Dict;
+import com.jingxiang.commons.model.dto.Dict;
 import com.inbyte.component.common.dict.dao.InbyteDictMapper;
 import com.inbyte.component.common.dict.model.DictItemBrief;
 import com.inbyte.component.common.dict.model.DictItemTreeBrief;

@@ -1,7 +1,7 @@
 package com.inbyte.component.common.aliyun.oss.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inbyte.commons.model.enums.FileTypeEnum;
+import com.jingxiang.commons.model.enums.FileTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

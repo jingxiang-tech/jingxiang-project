@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.inbyte.commons.util.StringUtil;
+import com.jingxiang.commons.util.StringUtil;
 import com.inbyte.component.common.dict.DictUtil;
 
 import java.io.IOException;

@@ -2,7 +2,7 @@ package com.inbyte.component.common.basic;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.inbyte.commons.util.SpringContextUtil;
+import com.jingxiang.commons.util.SpringContextUtil;
 import com.inbyte.component.common.basic.dao.CommonSystemConfigMapper;
 
 import java.math.BigDecimal;

@@ -1,7 +1,7 @@
 package com.inbyte.component.common.dict;
 
-import com.inbyte.commons.model.dto.Dict;
-import com.inbyte.commons.util.SpringContextUtil;
+import com.jingxiang.commons.model.dto.Dict;
+import com.jingxiang.commons.util.SpringContextUtil;
 
 import java.io.Serializable;
 import java.util.Collection;
