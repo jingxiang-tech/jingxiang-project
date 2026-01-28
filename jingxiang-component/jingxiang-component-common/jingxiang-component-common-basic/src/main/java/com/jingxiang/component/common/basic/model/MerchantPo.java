@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("inbyte_merchant")
-public class InbyteMerchantPo {
+@TableName("merchant")
+public class MerchantPo {
 
     /**
      * 商户号

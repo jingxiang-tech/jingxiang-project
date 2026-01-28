@@ -1,7 +1,7 @@
 package com.jingxiang.component.common.basic.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jingxiang.component.common.basic.model.InbyteMerchantPo;
+import com.jingxiang.component.common.basic.model.MerchantPo;
 
 /**
  * 商户
@@ -10,6 +10,6 @@ import com.jingxiang.component.common.basic.model.InbyteMerchantPo;
  * @author chenjw
  * @date 2024-03-11 17:13:43
  */
-public interface InbyteMerchantMapper extends BaseMapper<InbyteMerchantPo> {
+public interface MerchantMapper extends BaseMapper<MerchantPo> {
 
 }
