@@ -118,7 +118,7 @@ public class R<E> implements Serializable {
      * @return
      */
     public static <T> R<T> ok(String msg, T data) {
-        return new R(ResultStatus.Success.code, msg, data);
+        return new R<>(ResultStatus.Success.code, msg, data);
     }
 
     /**
@@ -151,11 +151,11 @@ public class R<E> implements Serializable {
      * @return
      */
     public static <T> R<T> fail(String msg, T data) {
-        return new R(ResultStatus.Failure.code, msg, data);
+        return new R<>(ResultStatus.Failure.code, msg, data);
     }
 
     public static <T> R<T> fail(ResultStatus statusCode) {
-        return new R(statusCode.code, statusCode.name, null);
+        return new R<>(statusCode.code, statusCode.name, null);
     }
 
     /**
@@ -167,7 +167,7 @@ public class R<E> implements Serializable {
      * @return
      */
     public static <T> R<T> error(String msg) {
-        return new R(ResultStatus.Internal_Server_Error.code, msg, null);
+        return new R<>(ResultStatus.Internal_Server_Error.code, msg, null);
     }
 
     public static <T> R<T> set(ResultStatus status) {
@@ -179,32 +179,32 @@ public class R<E> implements Serializable {
     }
 
     public static <T> R<T> set(ResultStatus status, String msg, T data) {
-        return new R(status.code, msg, data);
+        return new R<>(status.code, msg, data);
     }
 
     public static <T> R<T> set(Integer status) {
-        return new R(status, null, null);
+        return new R<>(status, null, null);
     }
 
     public static <T> R<T> set(Integer status, String msg) {
-        return new R(status, msg, null);
+        return new R<>(status, msg, null);
     }
 
     public static <T> R<T> set(Integer status, String msg, T data) {
-        return new R(status, msg, data);
+        return new R<>(status, msg, data);
     }
 
-    public static <T> R<T> valueOf(R resp) {
-        return new R(resp.getStatus(), resp.getMsg(), null);
+    public static <T> R<T> valueOf(R<?> resp) {
+        return new R<>(resp.getStatus(), resp.getMsg(), null);
     }
 
     /**
      * 分页接口使用
      * 本方法将参数包装 page 属性, 同时提供数据总行数【totalItems】, 与 list 数据
      *
-     * @param data
-     * @param <T>
-     * @return
+     * @param data 分页查询结果列表（通常由 PageHelper 包装）
+     * @param <T>  列表元素类型
+     * @return R<Page<E>>;
      */
     public static <T> R page(T data) {
         return new R(ResultStatus.Success.code, null, new Page<>(data));
