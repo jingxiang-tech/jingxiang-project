@@ -133,4 +133,9 @@ public class MerchantPo {
      */
     private LocalDate expireDate;
 
+    /**
+     * 是否完成初始化引导（业务信息+AI服务商仅商户设置一次，0否 1是）
+     */
+    private Integer initGuideDone;
+
 }
