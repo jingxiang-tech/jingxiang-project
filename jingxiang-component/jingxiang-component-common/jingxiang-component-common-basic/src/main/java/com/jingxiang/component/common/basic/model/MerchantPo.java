@@ -138,4 +138,9 @@ public class MerchantPo {
      */
     private Integer initGuideDone;
 
+    /**
+     * 该商户可创建员工数量上限
+     */
+    private Integer maxEmployeeCount;
+
 }
