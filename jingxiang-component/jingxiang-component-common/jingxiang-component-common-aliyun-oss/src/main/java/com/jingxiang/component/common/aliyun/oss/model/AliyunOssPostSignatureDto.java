@@ -34,6 +34,7 @@ public class AliyunOssPostSignatureDto {
      * 格式: accessKeyId/date/region/oss/aliyun_v4_request
      * 对应参数：x_oss_credential
      */
+    @JsonProperty("xOssCredential")
     private String xOssCredential;
 
     /**
@@ -41,6 +42,7 @@ public class AliyunOssPostSignatureDto {
      * 格式: yyyyMMddTHHmmssZ (ISO 8601)
      * 对应参数：x_oss_date
      */
+    @JsonProperty("xOssDate")
     private String xOssDate;
 
     /**
@@ -58,6 +60,11 @@ public class AliyunOssPostSignatureDto {
      * 上传路径，完整路径（包含文件名）
      */
     private String uploadPath;
+
+    /**
+     * 对应 material_asset.material_id，签名前已插入记录
+     */
+    private Integer materialId;
 
     /**
      * OSS Bucket域名

@@ -10,12 +10,14 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.jingxiang.commons.exception.BizException;
 import com.jingxiang.commons.model.dto.R;
-import com.jingxiang.component.common.aliyun.oss.dao.ObjectStorageMapper;
+import com.jingxiang.commons.model.enums.FileTypeEnum;
+import com.jingxiang.component.common.aliyun.oss.dao.MaterialAssetMapper;
 import com.jingxiang.component.common.aliyun.oss.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -58,7 +60,7 @@ public class AliyunOssPostSignatureService {
 
     private final AliyunOssProperties aliyunOssProperties;
 
-    private final ObjectStorageMapper objectStorageMapper;
+    private final MaterialAssetMapper materialAssetMapper;
 
     @Value("${jingxiang.app.server}")
     private String appServer;
@@ -112,7 +114,7 @@ public class AliyunOssPostSignatureService {
         // host格式: http://bucketname.oss-region.aliyuncs.com
         String host = "https://" + aliyunOssProperties.getBucketName() + "." + aliyunOssProperties.getEndpoint();
 
-        InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
+        MaterialAssetPo materialAssetPo = MaterialAssetPo.builder()
                 .mctNo(param.getMctNo())
                 .url(host + "/" + uploadPath)
                 .moduleName(param.getModuleName())
@@ -121,10 +123,11 @@ public class AliyunOssPostSignatureService {
                 .createTime(LocalDateTime.now())
                 .creator(param.getOperator())
                 .build();
-        objectStorageMapper.insert(inbyteObjectStoragePo);
+        materialAssetMapper.insert(materialAssetPo);
 
         // 生成回调配置
-        String callback = createCallback(inbyteObjectStoragePo.getObjectId());
+        Integer materialId = materialAssetPo.getMaterialId();
+        String callback = createCallback(materialId);
 
         AliyunOssPostSignatureDto signatureDto = AliyunOssPostSignatureDto.builder()
                 .ossSignatureVersion(SIGNATURE_VERSION)
@@ -134,6 +137,7 @@ public class AliyunOssPostSignatureService {
                 .signature(signature)
                 .securityToken(securityToken)
                 .uploadPath(uploadPath)
+                .materialId(materialId)
                 .host(host)
                 .callback(callback)
                 .build();
@@ -170,15 +174,55 @@ public class AliyunOssPostSignatureService {
      * @return 上传目录前缀
      */
     private String buildUploadDir(AliYunOssStsTokenParam param) {
-        // 文件目录格式: 商户空间/商户号/年/月/日/
+        // 文件目录格式: mct-space/商户号/年/月/随机-对象文件名；对象文件名由服务端生成，file_name 仅作展示写入 material_asset.file_name
         ZonedDateTime now = ZonedDateTime.now();
+        String objectFileName = buildSafeObjectFileName(param);
         String uploadDir = String.format("mct-space/%s/%d/%d/%d-%s",
                 param.getMctNo(),
                 now.getYear(),
                 now.getMonthValue(),
                 new Random().nextInt(10000000),
-                param.getFileName());
+                objectFileName);
         return uploadDir.replace("//", "/");
+    }
+
+    /**
+     * 生成 OSS 对象文件名：UUID + 安全扩展名，避免使用用户原始文件名作为路径片段（中文、空格、冲突等）
+     */
+    private static String buildSafeObjectFileName(AliYunOssStsTokenParam param) {
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        String ext = extractSafeExtension(param.getFileName());
+        if (ext == null) {
+            ext = defaultExtension(param.getFileType());
+        }
+        return uuid + ext;
+    }
+
+    private static String extractSafeExtension(String originalName) {
+        if (!StringUtils.hasText(originalName)) {
+            return null;
+        }
+        int dot = originalName.lastIndexOf('.');
+        if (dot <= 0 || dot >= originalName.length() - 1) {
+            return null;
+        }
+        String ext = originalName.substring(dot).toLowerCase(Locale.ROOT);
+        if (ext.matches("\\.[a-z0-9]{1,12}")) {
+            return ext;
+        }
+        return null;
+    }
+
+    private static String defaultExtension(FileTypeEnum ft) {
+        if (ft == null) {
+            return ".bin";
+        }
+        return switch (ft) {
+            case IMAGE -> ".webp";
+            case VIDEO -> ".mp4";
+            case AUDIO -> ".mp3";
+            default -> ".bin";
+        };
     }
 
     /**
@@ -306,10 +350,10 @@ public class AliyunOssPostSignatureService {
      * 创建上传回调配置
      * 回调配置会被Base64编码后返回给前端
      *
-     * @param objectId 对象存储ID，用于回调时更新上传状态
+     * @param materialId 素材主键，用于回调时更新上传状态
      * @return Base64编码的回调配置字符串
      */
-    private String createCallback(Integer objectId) {
+    private String createCallback(Integer materialId) {
         if (appServer == null || appServer.isEmpty()) {
             log.warn("回调服务器地址未配置，将不返回回调配置");
             return null;
@@ -324,7 +368,7 @@ public class AliyunOssPostSignatureService {
                 "mimeType=${mimeType}&" +
                 "height=${imageInfo.height}&" +
                 "width=${imageInfo.width}&" +
-                "objectId=" + objectId);
+                "materialId=" + materialId);
         jasonCallback.put("callbackBodyType", "application/x-www-form-urlencoded");
 
         // Base64编码回调配置，明确使用UTF-8编码
@@ -369,8 +413,8 @@ public class AliyunOssPostSignatureService {
 //            Integer width = json.getInteger("width");
 //            Integer size = json.getInteger("size");
 //
-//            InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
-//                    .objectId(objectId)
+//            MaterialAssetPo materialAssetPo = MaterialAssetPo.builder()
+//                    .materialId(materialId)
 //                    .fileName(fileName)
 //                    .mimeType(mimeType)
 //                    .height(height)

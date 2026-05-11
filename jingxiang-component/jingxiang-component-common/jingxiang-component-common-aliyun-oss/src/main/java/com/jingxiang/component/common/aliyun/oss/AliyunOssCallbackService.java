@@ -4,9 +4,9 @@ import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.jingxiang.commons.model.dict.WhetherDict;
 import com.jingxiang.commons.util.StringUtil;
-import com.jingxiang.component.common.aliyun.oss.dao.ObjectStorageMapper;
+import com.jingxiang.component.common.aliyun.oss.dao.MaterialAssetMapper;
 import com.jingxiang.component.common.aliyun.oss.model.AliyunOssCallbackDto;
-import com.jingxiang.component.common.aliyun.oss.model.InbyteObjectStoragePo;
+import com.jingxiang.component.common.aliyun.oss.model.MaterialAssetPo;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class AliyunOssCallbackService {
      */
     private static final AliyunOssCallbackDto CALLBACK_VERIFY_FAILED = new AliyunOssCallbackDto("verify not ok");
 
-    private final ObjectStorageMapper objectStorageMapper;
+    private final MaterialAssetMapper materialAssetMapper;
 
     /**
      * 阿里云 OSS 回调验证
@@ -63,26 +63,30 @@ public class AliyunOssCallbackService {
                 String decode = URLDecoder.decode(ossCallbackBody, "UTF-8");
                 JSONObject json = StringUtil.strToJson(decode);
                 // TODO 待优化增加回调参数
-                Integer objectId = json.getInteger("objectId");
+                Integer materialId = json.getInteger("materialId");
+                if (materialId == null) {
+                    log.warn("OSS 回调 body 缺少 materialId/objectId，跳过 DB 更新");
+                    return CALLBACK_SUCCESS;
+                }
                 String object = json.getString("object");
                 String mimeType = json.getString("mimeType");
                 Integer height = json.getInteger("height");
                 Integer width = json.getInteger("width");
                 Integer size = json.getInteger("size");
 
-                InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
-                        .objectId(objectId)
+                MaterialAssetPo materialAssetPo = MaterialAssetPo.builder()
+                        .materialId(materialId)
                         .fileName(object)
                         .mimeType(mimeType)
                         .height(height)
                         .width(width)
-                        .size(size)
+                        .fileSize(size)
                         .uploaded(WhetherDict.Yes.code)
                         .updateTime(LocalDateTime.now())
                         .build();
-                objectStorageMapper.updateById(inbyteObjectStoragePo);
+                materialAssetMapper.updateById(materialAssetPo);
 
-                log.info("OSS回调处理成功, objectId: {}, fileName: {}", objectId, object);
+                log.info("OSS回调处理成功, materialId: {}, fileName: {}", materialId, object);
                 return CALLBACK_SUCCESS;
             } else {
                 return CALLBACK_VERIFY_FAILED;

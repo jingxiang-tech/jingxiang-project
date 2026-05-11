@@ -4,31 +4,35 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.jingxiang.commons.model.enums.FileTypeEnum;
-import com.jingxiang.commons.model.enums.AccountTypeEnum;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 /**
- * 对象存储实体
+ * 素材/对象存储实体，表 {@code material_asset}。
  *
  * @author chenjw
  * @date 2024-03-12 09:40:07
- **/
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("inbyte_object_storage")
-public class InbyteObjectStoragePo {
+@TableName("material_asset")
+public class MaterialAssetPo {
 
     /**
-     * 对象ID
+     * 素材主键
      */
-    @TableId(value = "object_id", type = IdType.AUTO)
-    private Integer objectId;
+    @TableId(value = "material_id", type = IdType.AUTO)
+    private Integer materialId;
 
     /**
      * 文件地址
@@ -53,7 +57,7 @@ public class InbyteObjectStoragePo {
     /**
      * 文件大小(单位：字节)
      */
-    private Integer size;
+    private Integer fileSize;
 
     /**
      * 文件类型
@@ -64,11 +68,6 @@ public class InbyteObjectStoragePo {
      * 文件类型回调
      */
     private String mimeType;
-
-    /**
-     * 上传源
-     */
-    private AccountTypeEnum uploadBy;
 
     /**
      * 高度
@@ -114,6 +113,4 @@ public class InbyteObjectStoragePo {
      * 更新人
      */
     private String modifier;
-
 }
-
