@@ -62,7 +62,6 @@ public class AliyunOssCallbackService {
             if (verified) {
                 String decode = URLDecoder.decode(ossCallbackBody, "UTF-8");
                 JSONObject json = StringUtil.strToJson(decode);
-                // TODO 待优化增加回调参数
                 Integer materialId = json.getInteger("materialId");
                 if (materialId == null) {
                     log.warn("OSS 回调 body 缺少 materialId/objectId，跳过 DB 更新");
@@ -76,7 +75,6 @@ public class AliyunOssCallbackService {
 
                 MaterialAssetPo materialAssetPo = MaterialAssetPo.builder()
                         .materialId(materialId)
-                        .fileName(object)
                         .mimeType(mimeType)
                         .height(height)
                         .width(width)
