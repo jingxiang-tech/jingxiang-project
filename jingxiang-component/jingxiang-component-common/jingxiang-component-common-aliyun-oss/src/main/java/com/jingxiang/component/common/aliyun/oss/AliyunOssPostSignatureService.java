@@ -221,6 +221,8 @@ public class AliyunOssPostSignatureService {
             case IMAGE -> ".webp";
             case VIDEO -> ".mp4";
             case AUDIO -> ".mp3";
+            case PDF -> ".pdf";
+            case DOC -> ".doc";
             default -> ".bin";
         };
     }
@@ -282,8 +284,8 @@ public class AliyunOssPostSignatureService {
         dateCondition.put("x-oss-date", xOssDate);
         conditions.add(dateCondition);
 
-        // 文件大小限制 (1字节 - 10MB)
-        conditions.add(Arrays.asList("content-length-range", 1, 10240000));
+        // 文件大小限制（含视频、Office/PDF 等），与常见 aliyun.oss.max-file-size 配置量级一致
+        conditions.add(Arrays.asList("content-length-range", 1, 104857600));
 
         // 成功状态码
         conditions.add(Arrays.asList("eq", "$success_action_status", "200"));
