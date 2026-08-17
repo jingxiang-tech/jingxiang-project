@@ -124,6 +124,13 @@ public final class SessionUtil {
         return null;
     }
 
+    /**
+     * 是否为空间管理员
+     */
+    public static boolean isSpaceAdmin() {
+        return Integer.valueOf(1).equals(getAdmin());
+    }
+
     private static <T> T requireField(T value) {
         if (value == null) {
             throw session().newIncomplete();
