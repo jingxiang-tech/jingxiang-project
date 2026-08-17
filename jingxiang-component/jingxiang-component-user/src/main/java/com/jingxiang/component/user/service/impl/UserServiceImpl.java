@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
  *
  * @author chenjw
  */
-@Service
+@Service("unifiedUserService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
