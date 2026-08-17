@@ -7,7 +7,7 @@ import java.util.List;
  * 统一 Session 工具
  * <p>
  * 未登录异常、字段缺失异常由各端 {@link SessionSupport} 注入；
- * 扩展字段通过 {@link SpaceSession} / {@link RoleSession} 按需使用。
+ * 扩展字段通过 {@link SpaceSession} / {@link RoleSession} / {@link AdminSession} 按需使用。
  *
  * @author chenjw
  */
@@ -111,6 +111,17 @@ public final class SessionUtil {
             return false;
         }
         return getRoleCodes().stream().anyMatch(roleCode::equalsIgnoreCase);
+    }
+
+    /**
+     * 超管标记（需会话实现 {@link AdminSession}）
+     */
+    public static Integer getAdmin() {
+        BaseSessionUser user = getSessionUser();
+        if (user instanceof AdminSession admin) {
+            return admin.getAdmin();
+        }
+        return null;
     }
 
     private static <T> T requireField(T value) {
