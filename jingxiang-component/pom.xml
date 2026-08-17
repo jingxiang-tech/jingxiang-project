@@ -13,6 +13,8 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>jingxiang-component-common</module>
+		<module>jingxiang-component-user</module>
+		<module>jingxiang-component-user-admin</module>
 	</modules>
 
 </project>
