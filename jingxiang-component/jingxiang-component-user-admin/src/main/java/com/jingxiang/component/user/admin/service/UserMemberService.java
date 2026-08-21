@@ -44,6 +44,11 @@ public interface UserMemberService {
     R<Page<UserMemberBrief>> list(UserMemberQuery query);
 
     /**
+     * 租户成员列表（不分页）
+     */
+    R<List<UserMemberBrief>> listAll(UserMemberQuery query);
+
+    /**
      * 查询用户所属租户成员关系
      */
     R<List<UserMemberBrief>> listTenantsByUserId(Long userId);

@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 统一用户基础服务实现
@@ -114,6 +116,21 @@ public class UserServiceImpl implements UserService {
                 .eq(UserPo::getUserId, userId)
                 .eq(UserPo::getDeleted, WhetherDict.No.code)
                 .last("LIMIT 1"));
+    }
+
+    @Override
+    public List<UserBrief> listByIds(List<Long> userIds) {
+        if (userIds == null || userIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Long> distinctUserIds = userIds.stream()
+                .filter(java.util.Objects::nonNull)
+                .distinct()
+                .toList();
+        if (distinctUserIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return userMapper.listByIds(distinctUserIds);
     }
 
     @Override

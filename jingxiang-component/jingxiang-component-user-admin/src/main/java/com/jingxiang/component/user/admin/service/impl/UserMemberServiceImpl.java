@@ -126,6 +126,11 @@ public class UserMemberServiceImpl implements UserMemberService {
     }
 
     @Override
+    public R<List<UserMemberBrief>> listAll(UserMemberQuery query) {
+        return R.ok(userMemberMapper.list(query));
+    }
+
+    @Override
     public R<List<UserMemberBrief>> listTenantsByUserId(Long userId) {
         return R.ok(userMemberMapper.listTenantsByUserId(userId));
     }

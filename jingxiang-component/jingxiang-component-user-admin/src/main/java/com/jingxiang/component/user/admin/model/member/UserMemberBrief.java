@@ -84,7 +84,28 @@ public class UserMemberBrief {
     private String tenantCode;
 
     /**
-     * 是否禁用
+     * 用户是否禁用（联表）
+     */
+    @DictSerialize(WhetherDict.class)
+    private Integer userForbidden;
+
+    /**
+     * 用户备注（联表）
+     */
+    private String userRemark;
+
+    /**
+     * 用户创建时间（联表）
+     */
+    private LocalDateTime userCreatedAt;
+
+    /**
+     * 用户更新时间（联表）
+     */
+    private LocalDateTime userUpdatedAt;
+
+    /**
+     * 成员是否禁用
      */
     @DictSerialize(WhetherDict.class)
     private Integer forbidden;

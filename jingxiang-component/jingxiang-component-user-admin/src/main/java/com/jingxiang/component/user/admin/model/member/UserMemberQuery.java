@@ -5,6 +5,8 @@ import com.jingxiang.component.user.admin.dict.MemberTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * 成员分页查询
  *
@@ -20,9 +22,19 @@ public class UserMemberQuery extends BasePage {
     private Long tenantId;
 
     /**
+     * 租户编码
+     */
+    private String tenantCode;
+
+    /**
      * 用户ID
      */
     private Long memberUserId;
+
+    /**
+     * 用户ID列表
+     */
+    private List<Long> userIds;
 
     /**
      * 成员类型

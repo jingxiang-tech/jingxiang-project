@@ -3,6 +3,8 @@ package com.jingxiang.component.user.service;
 import com.jingxiang.commons.model.dto.R;
 import com.jingxiang.component.user.model.user.*;
 
+import java.util.List;
+
 /**
  * 统一用户基础服务（登录/注册/个人信息，不含管理端列表与禁用删除）
  *
@@ -34,6 +36,11 @@ public interface UserService {
      * 按用户ID查询
      */
     UserPo getById(Long userId);
+
+    /**
+     * 按用户ID批量查询
+     */
+    List<UserBrief> listByIds(List<Long> userIds);
 
     /**
      * 按手机号查询

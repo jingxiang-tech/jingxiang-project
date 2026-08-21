@@ -56,6 +56,30 @@ public interface UserMapper extends BaseMapper<UserPo> {
                 created_at
             FROM user
             WHERE deleted = 0
+              AND user_id IN
+              <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+                #{userId}
+              </foreach>
+            ORDER BY user_id DESC
+            </script>
+            """)
+    List<UserBrief> listByIds(@Param("userIds") List<Long> userIds);
+
+    @Select("""
+            <script>
+            SELECT
+                user_id,
+                tel,
+                user_name,
+                nickname,
+                real_name,
+                gender,
+                avatar,
+                email,
+                forbidden,
+                created_at
+            FROM user
+            WHERE deleted = 0
             <if test="tel != null and tel != ''">
                 AND tel = #{tel}
             </if>
