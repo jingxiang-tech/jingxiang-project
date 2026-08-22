@@ -4,7 +4,7 @@
 
 **只提供 Service，不提供 Controller。** 各业务系统自持 JWT/Session 与 HTTP 编排。
 
-不含管理端列表、删除、禁用；管理能力见 `jingxiang-component-user-admin`。
+不含管理端列表、删除、禁用；共享管理能力见 `jingxiang-component-user-admin-core`。
 
 ## 引入
 
@@ -98,4 +98,11 @@ public SessionSupport<SessionUser> sessionSupport(JwtCodec jwtCodec) {
 
 ## 管理端
 
-平台/后台请依赖：`jingxiang-component-user-admin`（已传递依赖本模块）。
+拆分后的正式结构如下：
+
+- `jingxiang-component-user-admin-core`：共享管理核心，提供用户、租户和成员管理能力，并传递依赖本模块
+- `jingxiang-component-user-admin-for-merchant`：商户后台用户接口、会话、访问日志与业务端口
+- `jingxiang-component-user-admin-for-platform`：平台端商户用户 CRUD、空间授权和 OWNER 开户编排
+
+商户端和平台端分别依赖对应 Starter；两个 Starter 都通过 Port 访问宿主业务库，不扫描宿主 Mapper。
+跨用户库与业务库的流程不得由单个 `@Transactional` 包裹，使用本地事务、幂等写入和失败补偿。
