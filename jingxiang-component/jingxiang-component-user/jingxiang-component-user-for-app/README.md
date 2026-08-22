@@ -1,10 +1,11 @@
 # jingxiang-component-user-for-app
 
-客户端/小程序用户**基础**组件：登录校验 / 注册 / 个人信息 / 第三方登录与绑手机。
+客户端/小程序用户专属组件：第三方身份、登录注册与绑手机。
 
 **只提供 Service，不提供 Controller。** 各业务系统自持 JWT/Session 与 HTTP 编排。
 
-不含管理端列表、删除、禁用；共享管理能力见 `jingxiang-component-user-admin-core`。
+本模块依赖 `jingxiang-component-user-common`。用户主表、通用用户服务、数据源、密码和 JWT
+均由 common 提供；本模块不重复包含这些 FQCN。
 
 ## 引入
 
@@ -17,13 +18,13 @@
 ```
 
 自动配置：
-- `UserDataSourceConfiguration`：独立用户库 DataSource / SqlSessionFactory / TransactionManager，并扫描 `user.dao`
-- `UserConfiguration`：Service 扫描
-- `JwtAutoConfiguration`：有 `jingxiang.component.user.jwt.secret` 时装配 JWT
+- common 自动配置用户数据源、`UserServiceImpl` 与 JWT
+- `UserConfiguration`：在 `UserCoreAutoConfiguration` 之后注册 `UserAuthServiceImpl` 和
+  `UserIdentityServiceImpl`
 
 ### 用户库数据源（必配）
 
-用户四表落在独立库（建议库名 `user_center`），与业务主库隔离。各端配置同一套连接：
+用户相关表落在独立库（建议库名 `user_center`），与业务主库隔离。各端配置同一套连接：
 
 ```yaml
 jingxiang:
@@ -40,15 +41,19 @@ jingxiang:
 组件 Bean 名：`userDataSource` / `userSqlSessionFactory` / `userTransactionManager`。  
 写操作请使用 `@UserTransactional`（已绑定用户库事务管理器），勿依赖业务库 `@Primary` 事务。
 
-建表见 [docs/DDL.sql](docs/DDL.sql)（在 **user_center** 执行，不要建到业务库）。
+建表须先执行 [common/docs/DDL.sql](../jingxiang-component-user-common/docs/DDL.sql)
+（`user` / `user_tenant` / `user_member`），再执行本模块 [docs/DDL.sql](docs/DDL.sql)
+（仅 `user_identity`）。均在 **user_center** 执行，不要建到业务库。
 
 ## 核心 Service
 
-- `UserService`：create / update / detail / changePassword / getBy* / authenticate
 - `UserAuthService`：loginOrRegisterByIdentity、bindMobile
 - `UserIdentityService`：身份绑定与查询
+- `MobileVerifyPort`：由宿主实现手机验证码校验
 
-## JWT / Session（通用抽象）
+`UserService` 由 `jingxiang-component-user-common` 提供。
+
+## JWT / Session（来自 common）
 
 包：`com.jingxiang.component.user.jwt`
 
@@ -87,7 +92,7 @@ public SessionSupport<SessionUser> sessionSupport(JwtCodec jwtCodec) {
 
 ## 接入约定
 
-1. 共享同一套用户四表（或只读副本）
+1. 共享同一套用户库（common 的 user/user_tenant/user_member + 本模块的 user_identity，或只读副本）
 2. 各端自签 JWT，不共享 Session
 3. 租户统一 `user_tenant.tenantCode` / `tenantId`，业务 Session 使用 `tenantCode`，不再使用 `mctNo` 作为租户语义
 4. HTTP 由业务系统 Controller 编排后调用上述 Service
@@ -98,9 +103,10 @@ public SessionSupport<SessionUser> sessionSupport(JwtCodec jwtCodec) {
 
 ## 管理端
 
-拆分后的正式结构如下：
+组件结构如下：
 
-- `jingxiang-component-user-admin-core`：共享管理核心，提供用户、租户和成员管理能力，并传递依赖本模块
+- `jingxiang-component-user-common`：用户通用核心，供 for-app 与 admin-core 共同依赖
+- `jingxiang-component-user-admin-core`：共享管理核心，仅依赖 common
 - `jingxiang-component-user-admin-for-merchant`：商户后台用户接口、会话、访问日志与业务端口
 - `jingxiang-component-user-admin-for-platform`：平台端商户用户 CRUD、空间授权和 OWNER 开户编排
 

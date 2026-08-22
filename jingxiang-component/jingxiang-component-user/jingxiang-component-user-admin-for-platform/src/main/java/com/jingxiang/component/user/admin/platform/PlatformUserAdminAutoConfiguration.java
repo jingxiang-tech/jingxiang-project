@@ -1,5 +1,6 @@
 package com.jingxiang.component.user.admin.platform;
 
+import com.jingxiang.component.user.UserCoreAutoConfiguration;
 import com.jingxiang.component.user.admin.core.UserAdminCoreAutoConfiguration;
 import com.jingxiang.component.user.admin.core.service.UserAdminService;
 import com.jingxiang.component.user.admin.core.service.UserMemberService;
@@ -11,7 +12,6 @@ import com.jingxiang.component.user.admin.platform.port.PlatformMerchantUserSpac
 import com.jingxiang.component.user.admin.platform.port.PlatformOperatorPort;
 import com.jingxiang.component.user.admin.platform.service.impl.PlatformMerchantOnboardingServiceImpl;
 import com.jingxiang.component.user.admin.platform.service.impl.PlatformMerchantUserServiceImpl;
-import com.jingxiang.component.user.UserConfiguration;
 import com.jingxiang.component.user.service.UserService;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Import;
  * 仅在宿主提供三个平台端口时装配，不扫描宿主 Mapper，也不装配登录、JWT 和拦截器。
  */
 @AutoConfiguration(after = {
-        UserConfiguration.class,
+        UserCoreAutoConfiguration.class,
         UserAdminCoreAutoConfiguration.class
 })
 @ConditionalOnBean({

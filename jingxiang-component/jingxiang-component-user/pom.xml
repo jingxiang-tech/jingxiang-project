@@ -12,6 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
+        <module>jingxiang-component-user-common</module>
         <module>jingxiang-component-user-for-app</module>
         <module>jingxiang-component-user-admin-core</module>
         <module>jingxiang-component-user-admin-for-merchant</module>

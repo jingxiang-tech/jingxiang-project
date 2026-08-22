@@ -12,9 +12,14 @@
     <packaging>jar</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
-    <description>客户端/小程序用户基础组件（登录/注册/个人信息/第三方登录）</description>
+    <description>客户端/小程序用户身份、登录注册与第三方认证组件</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.jingxiang</groupId>
+            <artifactId>jingxiang-component-user-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.jingxiang</groupId>
             <artifactId>jingxiang-commons</artifactId>
@@ -36,30 +41,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-crypto</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.fastjson2</groupId>
-            <artifactId>fastjson2</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>

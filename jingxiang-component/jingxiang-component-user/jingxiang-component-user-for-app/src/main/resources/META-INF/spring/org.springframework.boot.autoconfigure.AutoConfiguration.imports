@@ -1,3 +1,1 @@
-com.jingxiang.component.user.datasource.UserDataSourceConfiguration
 com.jingxiang.component.user.UserConfiguration
-com.jingxiang.component.user.jwt.JwtAutoConfiguration
