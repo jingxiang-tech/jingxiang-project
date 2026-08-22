@@ -56,7 +56,9 @@ public class UserDataSourceConfiguration {
                 .setLogicDeleteField("deleted")
                 .setLogicDeleteValue("1")
                 .setLogicNotDeleteValue("0");
-        sessionFactory.setGlobalConfig(new GlobalConfig().setDbConfig(dbConfig));
+        sessionFactory.setGlobalConfig(new GlobalConfig()
+                .setBanner(false)
+                .setDbConfig(dbConfig));
 
         PageInterceptor pageInterceptor = new PageInterceptor();
         Properties properties = new Properties();
