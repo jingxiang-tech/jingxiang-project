@@ -78,8 +78,8 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
         UserMemberCreate memberCreate = new UserMemberCreate();
         memberCreate.setUserId(createResult.getData());
         memberCreate.setTenantId(SessionUtil.getTenantId());
-        memberCreate.setMemberType(MemberTypeEnum.OPERATOR);
-        memberCreate.setMemberName(trimToNull(request.getNickname()));
+        memberCreate.setRoleCodeList(List.of(MemberTypeEnum.OPERATOR.code));
+        memberCreate.setRoleNameDesc(MemberTypeEnum.OPERATOR.name);
         memberCreate.setRemark(String.valueOf(SessionUtil.getUserId()));
         R<Long> memberResult = userMemberService.add(memberCreate);
         if (memberResult.failed()) {
@@ -108,7 +108,7 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
         Integer creatorUserId = SessionUtil.getUserId();
         UserMemberQuery query = new UserMemberQuery();
         query.setTenantId(SessionUtil.getTenantId());
-        query.setMemberType(MemberTypeEnum.OPERATOR);
+        query.setRoleCode(MemberTypeEnum.OPERATOR.code);
         R<List<UserMemberBrief>> result = userMemberService.listAll(query);
         if (result.failed() || result.getData() == null) {
             return R.ok(Collections.emptyList());
@@ -204,7 +204,7 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
         if (member == null || WhetherDict.Yes.code == member.getForbidden()) {
             return null;
         }
-        if (member.getMemberType() != MemberTypeEnum.OPERATOR) {
+        if (!MemberTypeEnum.contains(member.getRoleCodeList(), MemberTypeEnum.OPERATOR)) {
             return null;
         }
         if (!Objects.equals(String.valueOf(adminUserId), member.getRemark())) {

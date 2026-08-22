@@ -1,11 +1,14 @@
 package com.jingxiang.component.user.admin.common.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jingxiang.commons.util.convert.ListTypeHandler;
 import com.jingxiang.component.user.admin.common.model.member.UserMemberBrief;
 import com.jingxiang.component.user.admin.common.model.member.UserMemberPo;
 import com.jingxiang.component.user.admin.common.model.member.UserMemberQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -18,14 +21,17 @@ import java.util.List;
 @Mapper
 public interface UserMemberMapper extends BaseMapper<UserMemberPo> {
 
+    @Results(id = "UserMemberBriefMap", value = {
+            @Result(property = "roleCodeList", column = "role_code_list", typeHandler = ListTypeHandler.class)
+    })
     @Select("""
             <script>
             SELECT
                 m.member_id,
                 m.user_id,
                 m.tenant_id,
-                m.member_type,
-                m.member_name,
+                m.role_code_list,
+                m.role_name_desc,
                 u.nickname,
                 u.user_name,
                 u.real_name,
@@ -51,14 +57,15 @@ public interface UserMemberMapper extends BaseMapper<UserMemberPo> {
             """)
     UserMemberBrief detail(@Param("memberId") Long memberId);
 
+    @Result(property = "roleCodeList", column = "role_code_list", typeHandler = ListTypeHandler.class)
     @Select("""
             <script>
             SELECT
                 m.member_id,
                 m.user_id,
                 m.tenant_id,
-                m.member_type,
-                m.member_name,
+                m.role_code_list,
+                m.role_name_desc,
                 u.nickname,
                 u.user_name,
                 u.real_name,
@@ -93,8 +100,8 @@ public interface UserMemberMapper extends BaseMapper<UserMemberPo> {
                     #{userId}
                 </foreach>
             </if>
-            <if test="memberType != null">
-                AND m.member_type = #{memberType}
+            <if test="roleCode != null and roleCode != ''">
+                AND JSON_CONTAINS(m.role_code_list, JSON_QUOTE(#{roleCode}))
             </if>
             <if test="forbidden != null">
                 AND m.forbidden = #{forbidden}
@@ -103,21 +110,24 @@ public interface UserMemberMapper extends BaseMapper<UserMemberPo> {
                 AND (u.user_name LIKE CONCAT('%', #{keyword}, '%')
                   OR u.tel LIKE CONCAT('%', #{keyword}, '%')
                   OR u.nickname LIKE CONCAT('%', #{keyword}, '%')
-                  OR m.member_name LIKE CONCAT('%', #{keyword}, '%'))
+                  OR m.role_name_desc LIKE CONCAT('%', #{keyword}, '%'))
             </if>
             ORDER BY m.member_id DESC
             </script>
             """)
     List<UserMemberBrief> list(UserMemberQuery query);
 
+    @Results(id = "UserMemberPoMap", value = {
+            @Result(property = "roleCodeList", column = "role_code_list", typeHandler = ListTypeHandler.class)
+    })
     @Select("""
             <script>
             SELECT
                 member_id,
                 user_id,
                 tenant_id,
-                member_type,
-                member_name,
+                role_code_list,
+                role_name_desc,
                 forbidden,
                 created_at,
                 updated_at,
@@ -132,14 +142,15 @@ public interface UserMemberMapper extends BaseMapper<UserMemberPo> {
             """)
     UserMemberPo findByUserAndTenant(@Param("userId") Long userId, @Param("tenantId") Long tenantId);
 
+    @Result(property = "roleCodeList", column = "role_code_list", typeHandler = ListTypeHandler.class)
     @Select("""
             <script>
             SELECT
                 m.member_id,
                 m.user_id,
                 m.tenant_id,
-                m.member_type,
-                m.member_name,
+                m.role_code_list,
+                m.role_name_desc,
                 u.nickname,
                 u.user_name,
                 u.real_name,

@@ -101,8 +101,8 @@ public class SystemUserServiceImpl implements SystemUserService {
         }
         MerchantDirectory merchant = merchantDirectoryPort.findByMerchantNo(sessionUser.getTenantCode());
         UserMemberPo member = userMemberService.getByUserAndTenant(user.getUserId(), sessionUser.getTenantId());
-        List<String> roles = member != null && member.getMemberType() != null
-                ? List.of(member.getMemberType().code) : Collections.emptyList();
+        List<String> roles = member != null && member.getRoleCodeList() != null
+                ? member.getRoleCodeList() : Collections.emptyList();
         int initGuideDone = merchant != null && merchant.initGuideDone() != null
                 ? merchant.initGuideDone() : 0;
         return R.ok(new SystemUserInfo(
@@ -178,12 +178,12 @@ public class SystemUserServiceImpl implements SystemUserService {
             }
         }
 
-        MemberTypeEnum memberType = resolveMemberType(insert.getRole());
+        List<String> roleCodeList = resolveRoleCodes(insert.getRole());
         Long addedMemberId = null;
         List<UserSpace> addedSpaces = Collections.emptyList();
         try {
             if (!alreadyMember) {
-                R<Long> addResult = addMember(user.getUserId(), tenantId, memberType);
+                R<Long> addResult = addMember(user.getUserId(), tenantId, roleCodeList);
                 if (addResult.failed()) {
                     compensateNewUser(newUser, user.getUserId());
                     return R.fail(addResult.getMsg());
@@ -247,8 +247,8 @@ public class SystemUserServiceImpl implements SystemUserService {
             return R.fail("无权限操作该用户");
         }
         if (!CollectionUtils.isEmpty(update.getRole())
-                && update.getRole().contains("OWNER")
-                && member.getMemberType() != MemberTypeEnum.OWNER) {
+                && update.getRole().contains(MemberTypeEnum.OWNER.code)
+                && !MemberTypeEnum.contains(member.getRoleCodeList(), MemberTypeEnum.OWNER)) {
             return R.fail("管理员角色不允许修改");
         }
         R<?> userResult = userService.update(toUserUpdate(update));
@@ -258,7 +258,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         if (!CollectionUtils.isEmpty(update.getRole())) {
             UserMemberUpdate memberUpdate = new UserMemberUpdate();
             memberUpdate.setMemberId(member.getMemberId());
-            memberUpdate.setMemberType(resolveMemberType(update.getRole()));
+            memberUpdate.setRoleCodeList(resolveRoleCodes(update.getRole()));
             return userMemberService.update(memberUpdate);
         }
         return R.ok("修改成功");
@@ -372,11 +372,11 @@ public class SystemUserServiceImpl implements SystemUserService {
                 && merchantUserSpacePort.countDistinctUsers(merchantNo) + 1 > merchant.maxEmployeeCount();
     }
 
-    private R<Long> addMember(Long userId, Long tenantId, MemberTypeEnum memberType) {
+    private R<Long> addMember(Long userId, Long tenantId, List<String> roleCodeList) {
         UserMemberCreate create = new UserMemberCreate();
         create.setUserId(userId);
         create.setTenantId(tenantId);
-        create.setMemberType(memberType);
+        create.setRoleCodeList(roleCodeList);
         return userMemberService.add(create);
     }
 
@@ -412,17 +412,9 @@ public class SystemUserServiceImpl implements SystemUserService {
         return userUpdate;
     }
 
-    private MemberTypeEnum resolveMemberType(List<String> roles) {
-        if (!CollectionUtils.isEmpty(roles)) {
-            for (String role : roles) {
-                try {
-                    return MemberTypeEnum.valueOf(role);
-                } catch (IllegalArgumentException ignored) {
-                    // 兼容历史客户端传入未知角色。
-                }
-            }
-        }
-        return MemberTypeEnum.MEMBER;
+    private List<String> resolveRoleCodes(List<String> roles) {
+        List<String> codes = MemberTypeEnum.normalizeCodes(roles);
+        return codes.isEmpty() ? List.of(MemberTypeEnum.MEMBER.code) : codes;
     }
 
     private void compensateInsert(Long userId, String merchantNo, List<UserSpace> addedSpaces,

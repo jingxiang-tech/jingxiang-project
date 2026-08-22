@@ -1,10 +1,11 @@
 package com.jingxiang.component.user.admin.common.model.member;
 
-import com.jingxiang.component.user.admin.common.dict.MemberTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 修改成员
@@ -22,15 +23,15 @@ public class UserMemberUpdate {
     private Long memberId;
 
     /**
-     * 成员类型
+     * 角色编码列表
      */
-    private MemberTypeEnum memberType;
+    private List<String> roleCodeList;
 
     /**
-     * 组织内显示名称
+     * 角色名称
      */
-    @Size(max = 64)
-    private String memberName;
+    @Size(max = 255)
+    private String roleNameDesc;
 
     /**
      * 备注

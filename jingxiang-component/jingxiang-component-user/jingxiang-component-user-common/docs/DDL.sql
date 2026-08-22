@@ -76,10 +76,8 @@ CREATE TABLE `user_member` (
 
   `user_id` BIGINT UNSIGNED NOT NULL COMMENT '用户ID',
   `tenant_id` BIGINT UNSIGNED NOT NULL COMMENT '租户/组织ID',
-  `member_type` VARCHAR(32) NOT NULL DEFAULT 'MEMBER' COMMENT
-    '成员类型：OWNER/ADMIN/OPERATOR/FINANCE/MEMBER等，由程序定义',
-
-  `member_name` VARCHAR(64) DEFAULT NULL COMMENT '组织内显示名称',
+  `role_code_list` JSON DEFAULT NULL COMMENT '角色编码列表',
+  `role_name_desc` VARCHAR(255) DEFAULT NULL COMMENT '角色名称',
 
   `forbidden` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否禁用：0否 1是',
 
@@ -110,3 +108,12 @@ CREATE TABLE `user_member` (
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci
 COMMENT='用户组织成员关系';
+
+-- 已有库迁移示例：
+-- ALTER TABLE `user_member`
+--   ADD COLUMN `role_code_list` JSON DEFAULT NULL COMMENT '角色编码列表' AFTER `tenant_id`,
+--   CHANGE COLUMN `member_name` `role_name_desc` VARCHAR(255) DEFAULT NULL COMMENT '角色名称';
+-- UPDATE `user_member`
+--    SET `role_code_list` = JSON_ARRAY(`member_type`)
+--  WHERE `role_code_list` IS NULL AND `member_type` IS NOT NULL;
+-- ALTER TABLE `user_member` DROP COLUMN `member_type`;

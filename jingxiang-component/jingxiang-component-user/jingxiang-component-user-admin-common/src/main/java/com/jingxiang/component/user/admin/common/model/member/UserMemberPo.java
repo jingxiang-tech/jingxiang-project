@@ -1,12 +1,14 @@
 package com.jingxiang.component.user.admin.common.model.member;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.jingxiang.component.user.admin.common.dict.MemberTypeEnum;
+import com.jingxiang.commons.util.convert.ListTypeHandler;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 用户组织成员关系实体
@@ -21,7 +23,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("user_member")
+@TableName(value = "user_member", autoResultMap = true)
 public class UserMemberPo {
 
     /**
@@ -41,14 +43,15 @@ public class UserMemberPo {
     private Long tenantId;
 
     /**
-     * 成员类型
+     * 角色编码列表
      */
-    private MemberTypeEnum memberType;
+    @TableField(typeHandler = ListTypeHandler.class)
+    private List<String> roleCodeList;
 
     /**
-     * 组织内显示名称
+     * 角色名称
      */
-    private String memberName;
+    private String roleNameDesc;
 
     /**
      * 是否禁用：0否 1是

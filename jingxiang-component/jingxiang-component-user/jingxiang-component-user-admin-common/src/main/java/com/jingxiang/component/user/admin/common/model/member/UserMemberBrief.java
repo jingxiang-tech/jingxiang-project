@@ -1,12 +1,14 @@
 package com.jingxiang.component.user.admin.common.model.member;
 
-import com.jingxiang.component.common.dict.convert.DictSerialize;
-import com.jingxiang.component.user.admin.common.dict.MemberTypeEnum;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.jingxiang.commons.model.dict.WhetherDict;
+import com.jingxiang.commons.util.convert.ListTypeHandler;
+import com.jingxiang.component.common.dict.convert.DictSerialize;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 成员列表
@@ -33,15 +35,15 @@ public class UserMemberBrief {
     private Long tenantId;
 
     /**
-     * 成员类型
+     * 角色编码列表
      */
-    @DictSerialize(MemberTypeEnum.class)
-    private MemberTypeEnum memberType;
+    @TableField(typeHandler = ListTypeHandler.class)
+    private List<String> roleCodeList;
 
     /**
-     * 组织内显示名称
+     * 角色名称
      */
-    private String memberName;
+    private String roleNameDesc;
 
     /**
      * 用户昵称（联表）

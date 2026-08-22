@@ -1,7 +1,6 @@
 package com.jingxiang.component.user.admin.common.model.member;
 
 import com.jingxiang.commons.model.dto.BasePage;
-import com.jingxiang.component.user.admin.common.dict.MemberTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,9 +36,9 @@ public class UserMemberQuery extends BasePage {
     private List<Long> userIds;
 
     /**
-     * 成员类型
+     * 角色编码（JSON 包含匹配）
      */
-    private MemberTypeEnum memberType;
+    private String roleCode;
 
     /**
      * 是否禁用
@@ -47,7 +46,7 @@ public class UserMemberQuery extends BasePage {
     private Integer forbidden;
 
     /**
-     * 关键词（用户名/手机/昵称）
+     * 关键词（用户名/手机/昵称/角色名称）
      */
     private String keyword;
 }

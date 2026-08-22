@@ -110,7 +110,7 @@ public class PlatformMerchantUserServiceImpl implements PlatformMerchantUserServ
             UserMemberCreate memberCreate = new UserMemberCreate();
             memberCreate.setUserId(userId);
             memberCreate.setTenantId(tenantId);
-            memberCreate.setMemberType(MemberTypeEnum.MEMBER);
+            memberCreate.setRoleCodeList(List.of(MemberTypeEnum.MEMBER.code));
             R<Long> memberResult = userMemberService.add(memberCreate);
             if (memberResult.failed()) {
                 compensateCreatedUser(userId, null);

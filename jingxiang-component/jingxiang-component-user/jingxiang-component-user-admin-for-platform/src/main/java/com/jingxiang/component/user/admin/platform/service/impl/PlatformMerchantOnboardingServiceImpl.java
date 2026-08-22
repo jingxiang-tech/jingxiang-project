@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 /**
  * 商户 OWNER 开户实现。
  * <p>
@@ -49,7 +51,8 @@ public class PlatformMerchantOnboardingServiceImpl implements PlatformMerchantOn
         boolean userCreated = false;
         Long createdMemberId = null;
         Long updatedMemberId = null;
-        MemberTypeEnum previousMemberType = null;
+        List<String> previousRoleCodeList = null;
+        String previousRoleNameDesc = null;
         Long userId = null;
         try {
             UserBrief existingUser = userService.getByUserName(command.userName());
@@ -76,19 +79,22 @@ public class PlatformMerchantOnboardingServiceImpl implements PlatformMerchantOn
                 UserMemberCreate memberCreate = new UserMemberCreate();
                 memberCreate.setUserId(userId);
                 memberCreate.setTenantId(tenantId);
-                memberCreate.setMemberType(MemberTypeEnum.OWNER);
+                memberCreate.setRoleCodeList(List.of(MemberTypeEnum.OWNER.code));
+                memberCreate.setRoleNameDesc(MemberTypeEnum.OWNER.name);
                 R<Long> memberResult = userMemberService.add(memberCreate);
                 if (memberResult.failed()) {
                     compensate(userId, userCreated, null);
                     return R.fail(memberResult.getMsg());
                 }
                 createdMemberId = memberResult.getData();
-            } else if (member.getMemberType() != MemberTypeEnum.OWNER) {
+            } else if (!MemberTypeEnum.contains(member.getRoleCodeList(), MemberTypeEnum.OWNER)) {
                 updatedMemberId = member.getMemberId();
-                previousMemberType = member.getMemberType();
+                previousRoleCodeList = member.getRoleCodeList();
+                previousRoleNameDesc = member.getRoleNameDesc();
                 UserMemberUpdate memberUpdate = new UserMemberUpdate();
                 memberUpdate.setMemberId(member.getMemberId());
-                memberUpdate.setMemberType(MemberTypeEnum.OWNER);
+                memberUpdate.setRoleCodeList(List.of(MemberTypeEnum.OWNER.code));
+                memberUpdate.setRoleNameDesc(MemberTypeEnum.OWNER.name);
                 R<?> updateResult = userMemberService.update(memberUpdate);
                 if (updateResult.failed()) {
                     compensate(userId, userCreated, null);
@@ -105,7 +111,7 @@ public class PlatformMerchantOnboardingServiceImpl implements PlatformMerchantOn
                     true);
             return R.ok(userId);
         } catch (RuntimeException exception) {
-            compensate(userId, userCreated, createdMemberId, updatedMemberId, previousMemberType);
+            compensate(userId, userCreated, createdMemberId, updatedMemberId, previousRoleCodeList, previousRoleNameDesc);
             return R.fail("商户 OWNER 开户失败：" + exception.getMessage());
         }
     }
@@ -120,7 +126,7 @@ public class PlatformMerchantOnboardingServiceImpl implements PlatformMerchantOn
     }
 
     private void compensate(Long userId, boolean userCreated, Long memberId) {
-        compensate(userId, userCreated, memberId, null, null);
+        compensate(userId, userCreated, memberId, null, null, null);
     }
 
     private void compensate(
@@ -128,7 +134,8 @@ public class PlatformMerchantOnboardingServiceImpl implements PlatformMerchantOn
             boolean userCreated,
             Long memberId,
             Long updatedMemberId,
-            MemberTypeEnum previousMemberType) {
+            List<String> previousRoleCodeList,
+            String previousRoleNameDesc) {
         if (memberId != null) {
             try {
                 userMemberService.remove(memberId);
@@ -136,11 +143,12 @@ public class PlatformMerchantOnboardingServiceImpl implements PlatformMerchantOn
                 log.error("补偿开户成员关系失败，userId={}, memberId={}", userId, memberId, exception);
             }
         }
-        if (updatedMemberId != null && previousMemberType != null) {
+        if (updatedMemberId != null && previousRoleCodeList != null) {
             try {
                 UserMemberUpdate update = new UserMemberUpdate();
                 update.setMemberId(updatedMemberId);
-                update.setMemberType(previousMemberType);
+                update.setRoleCodeList(previousRoleCodeList);
+                update.setRoleNameDesc(previousRoleNameDesc);
                 userMemberService.update(update);
             } catch (RuntimeException exception) {
                 log.error("补偿开户成员角色失败，userId={}, memberId={}", userId, updatedMemberId, exception);

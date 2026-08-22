@@ -7,6 +7,7 @@ import com.jingxiang.commons.model.dto.Page;
 import com.jingxiang.commons.model.dto.R;
 import com.jingxiang.commons.util.PageUtil;
 import com.jingxiang.component.user.admin.common.dao.UserMemberMapper;
+import com.jingxiang.component.user.admin.common.dict.MemberTypeEnum;
 import com.jingxiang.component.user.admin.common.model.member.*;
 import com.jingxiang.component.user.admin.common.model.tenant.UserTenantPo;
 import com.jingxiang.component.user.model.user.UserPo;
@@ -58,12 +59,16 @@ public class UserMemberServiceImpl implements UserMemberService {
             return R.fail("该用户已是组织成员");
         }
 
+        List<String> roleCodeList = MemberTypeEnum.normalizeCodes(create.getRoleCodeList());
+        if (roleCodeList.isEmpty()) {
+            return R.fail("角色编码不能为空");
+        }
         LocalDateTime now = LocalDateTime.now();
         UserMemberPo po = UserMemberPo.builder()
                 .userId(create.getUserId())
                 .tenantId(create.getTenantId())
-                .memberType(create.getMemberType())
-                .memberName(create.getMemberName())
+                .roleCodeList(roleCodeList)
+                .roleNameDesc(resolveRoleNameDesc(roleCodeList, create.getRoleNameDesc()))
                 .forbidden(WhetherDict.No.code)
                 .deleted(WhetherDict.No.code)
                 .remark(create.getRemark())
@@ -101,10 +106,19 @@ public class UserMemberServiceImpl implements UserMemberService {
     @Override
     public R<?> update(UserMemberUpdate update) {
         requireMember(update.getMemberId());
+        List<String> roleCodeList = update.getRoleCodeList() == null
+                ? null : MemberTypeEnum.normalizeCodes(update.getRoleCodeList());
+        if (update.getRoleCodeList() != null && roleCodeList.isEmpty()) {
+            return R.fail("角色编码不能为空");
+        }
+        String roleNameDesc = update.getRoleNameDesc();
+        if (roleNameDesc == null && roleCodeList != null) {
+            roleNameDesc = MemberTypeEnum.namesOf(roleCodeList);
+        }
         userMemberMapper.update(null, new LambdaUpdateWrapper<UserMemberPo>()
                 .eq(UserMemberPo::getMemberId, update.getMemberId())
-                .set(update.getMemberType() != null, UserMemberPo::getMemberType, update.getMemberType())
-                .set(update.getMemberName() != null, UserMemberPo::getMemberName, update.getMemberName())
+                .set(roleCodeList != null, UserMemberPo::getRoleCodeList, roleCodeList)
+                .set(roleNameDesc != null, UserMemberPo::getRoleNameDesc, roleNameDesc)
                 .set(update.getRemark() != null, UserMemberPo::getRemark, update.getRemark())
                 .set(UserMemberPo::getUpdatedAt, LocalDateTime.now()));
         return R.ok("修改成功");
@@ -152,5 +166,12 @@ public class UserMemberServiceImpl implements UserMemberService {
             throw InbyteException.fail("成员不存在");
         }
         return po;
+    }
+
+    private String resolveRoleNameDesc(List<String> roleCodeList, String roleNameDesc) {
+        if (roleNameDesc != null && !roleNameDesc.isBlank()) {
+            return roleNameDesc.trim();
+        }
+        return MemberTypeEnum.namesOf(roleCodeList);
     }
 }
