@@ -13,23 +13,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 4.1.1（2026-08-20）：Jackson 2.21.5 / 3.1.5、Tomcat 11.0.24、httpclient5 5.6.4（CVE-2026-71290） -->
         <springboot.version>4.1.1</springboot.version>
-        <mybatis-plus.version>3.5.17</mybatis-plus.version>
-        <!-- 2.0.63 修复 AutoType 加固问题，2.0.64 为当前最新补丁 -->
-        <fastjson2.version>2.0.64</fastjson2.version>
-        <!-- 修复 CVE-2018-10237 / CVE-2020-8908 / CVE-2023-2976 -->
-        <guava.version>33.6.0-jre</guava.version>
-        <!-- 4.1.1 对齐 Spring Boot 4.1 / PageHelper 6.1.1 -->
-        <pagehelper.version>4.1.1</pagehelper.version>
-        <mybatis.version>3.5.19</mybatis.version>
-        <mybatis-spring.version>4.0.0</mybatis-spring.version>
-        <jts.version>1.20.0</jts.version>
-        <aliyun-oss.version>3.18.5</aliyun-oss.version>
-        <!-- 4.6.0 将 jackson-databind 升至 2.22.0，规避 4.5.0 传递的 CVE-2026-54513 -->
-        <java-jwt.version>4.6.0</java-jwt.version>
-        <!-- OSS SDK 默认 4.5.13，升至 4.5.14 并带上 httpcore 4.4.16 -->
-        <httpclient.version>4.5.14</httpclient.version>
-        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
-        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
     </properties>
 
     <modules>
@@ -56,7 +39,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-bom</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <version>3.5.17</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -64,19 +47,22 @@
             <dependency>
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
-                <version>${fastjson2.version}</version>
+                <!-- 2.0.63 修复 AutoType 加固问题，2.0.64 为当前最新补丁 -->
+                <version>2.0.64</version>
             </dependency>
 
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
+                <!-- 修复 CVE-2018-10237 / CVE-2020-8908 / CVE-2023-2976 -->
+                <version>33.6.0-jre</version>
             </dependency>
 
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper.version}</version>
+                <!-- 4.1.1 对齐 Spring Boot 4.1 / PageHelper 6.1.1 -->
+                <version>4.1.1</version>
                 <exclusions>
                     <!-- 与 MyBatis Plus Boot4 Starter 的 SqlSessionFactory 自动配置冲突 -->
                     <exclusion>
@@ -88,34 +74,36 @@
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
-                <version>${mybatis.version}</version>
+                <version>3.5.19</version>
             </dependency>
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis-spring.version}</version>
+                <version>4.0.0</version>
             </dependency>
 
             <dependency>
                 <groupId>org.locationtech.jts</groupId>
                 <artifactId>jts-core</artifactId>
-                <version>${jts.version}</version>
+                <version>1.20.0</version>
             </dependency>
 
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
-                <version>${aliyun-oss.version}</version>
+                <version>3.18.5</version>
             </dependency>
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
-                <version>${java-jwt.version}</version>
+                <!-- 4.6.0 将 jackson-databind 升至 2.22.0，规避 4.5.0 传递的 CVE-2026-54513 -->
+                <version>4.6.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>${httpclient.version}</version>
+                <!-- OSS SDK 默认 4.5.13，升至 4.5.14 并带上 httpcore 4.4.16 -->
+                <version>4.5.14</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -139,7 +127,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin.version}</version>
+                    <version>3.14.1</version>
                     <configuration>
                         <release>${java.version}</release>
                         <encoding>${project.build.sourceEncoding}</encoding>
@@ -158,7 +146,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven-resources-plugin.version}</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
