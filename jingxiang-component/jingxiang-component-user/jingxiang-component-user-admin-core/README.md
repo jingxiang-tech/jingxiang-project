@@ -4,7 +4,7 @@
 
 **只提供 Service、DAO、数据模型与自动配置，不提供 Controller。**
 
-该模块依赖 `jingxiang-component-user`，由 merchant/platform 两个 Starter 共同复用。
+该模块依赖 `jingxiang-component-user-for-app`，由 merchant/platform 两个 Starter 共同复用。
 
 ## 引入
 
@@ -19,7 +19,7 @@
 自动配置：`UserAdminCoreAutoConfiguration`（在用户库 `userSqlSessionFactory` 可用后扫描
 `com.jingxiang.component.user.admin.core.dao`）。
 
-需同时配置 `jingxiang.component.user.datasource.jdbc-url`（见 `jingxiang-component-user` README）。
+需同时配置 `jingxiang.component.user.datasource.jdbc-url`（见 `jingxiang-component-user-for-app` README）。
 
 ## 核心 Service
 

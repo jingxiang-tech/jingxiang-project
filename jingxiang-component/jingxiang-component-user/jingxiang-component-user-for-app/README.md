@@ -1,6 +1,6 @@
-# jingxiang-component-user
+# jingxiang-component-user-for-app
 
-统一用户**基础**组件：登录校验 / 注册 / 个人信息 / 第三方登录与绑手机。
+客户端/小程序用户**基础**组件：登录校验 / 注册 / 个人信息 / 第三方登录与绑手机。
 
 **只提供 Service，不提供 Controller。** 各业务系统自持 JWT/Session 与 HTTP 编排。
 
@@ -11,7 +11,7 @@
 ```xml
 <dependency>
     <groupId>com.jingxiang</groupId>
-    <artifactId>jingxiang-component-user</artifactId>
+    <artifactId>jingxiang-component-user-for-app</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```

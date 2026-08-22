@@ -5,41 +5,74 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.jingxiang</groupId>
-        <artifactId>jingxiang-component</artifactId>
+        <artifactId>jingxiang-component-user</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jingxiang-component-user-admin-for-merchant</artifactId>
+    <artifactId>jingxiang-component-user-for-app</artifactId>
     <packaging>jar</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
-    <description>商户后台用户管理 Starter</description>
+    <description>客户端/小程序用户基础组件（登录/注册/个人信息/第三方登录）</description>
 
     <dependencies>
         <dependency>
             <groupId>com.jingxiang</groupId>
-            <artifactId>jingxiang-component-user-admin-core</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>jingxiang-commons</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.jingxiang</groupId>
-            <artifactId>jingxiang-component-user</artifactId>
+            <artifactId>jingxiang-component-common-dict</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webmvc</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aspectj</artifactId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <artifactId>spring-boot</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>4.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -49,11 +82,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.jingxiang</groupId>
-        <artifactId>jingxiang-component</artifactId>
+        <artifactId>jingxiang-component-user</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>jingxiang-component-user-admin-core</artifactId>
@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.jingxiang</groupId>
-            <artifactId>jingxiang-component-user</artifactId>
+            <artifactId>jingxiang-component-user-for-app</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
