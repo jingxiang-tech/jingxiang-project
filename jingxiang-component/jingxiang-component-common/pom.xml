@@ -13,7 +13,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>jingxiang-component-common-basic</module>
-		<module>jingxiang-component-common-dict</module>
+		<module>jingxiang-component-dict</module>
 		<module>jingxiang-component-common-aliyun-oss</module>
 	</modules>
 
