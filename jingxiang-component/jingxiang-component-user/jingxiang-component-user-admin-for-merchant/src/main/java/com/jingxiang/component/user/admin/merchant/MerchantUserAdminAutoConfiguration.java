@@ -5,11 +5,13 @@ import com.jingxiang.component.user.admin.core.service.UserAdminService;
 import com.jingxiang.component.user.admin.core.service.UserMemberService;
 import com.jingxiang.component.user.admin.core.service.UserTenantService;
 import com.jingxiang.component.user.admin.merchant.config.MerchantUserAdminProperties;
+import com.jingxiang.component.user.admin.merchant.controller.MerchantSpaceUserController;
 import com.jingxiang.component.user.admin.merchant.controller.SystemRoleController;
 import com.jingxiang.component.user.admin.merchant.controller.SystemUserController;
 import com.jingxiang.component.user.admin.merchant.exception.MerchantSessionUnavailableException;
 import com.jingxiang.component.user.admin.merchant.port.MerchantDirectoryPort;
 import com.jingxiang.component.user.admin.merchant.port.MerchantUserSpacePort;
+import com.jingxiang.component.user.admin.merchant.service.impl.MerchantSpaceUserServiceImpl;
 import com.jingxiang.component.user.admin.merchant.service.impl.SystemUserServiceImpl;
 import com.jingxiang.component.user.admin.merchant.session.MerchantSessionUser;
 import com.jingxiang.component.user.admin.merchant.web.MerchantAccessLogAspect;
@@ -49,7 +51,9 @@ import org.springframework.context.annotation.Import;
 @EnableConfigurationProperties(MerchantUserAdminProperties.class)
 @Import({
         SystemUserServiceImpl.class,
+        MerchantSpaceUserServiceImpl.class,
         SystemUserController.class,
+        MerchantSpaceUserController.class,
         SystemRoleController.class,
         MerchantSessionExceptionResolver.class
 })

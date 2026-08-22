@@ -3,6 +3,7 @@
 商户后台用户管理 Starter，依赖 `jingxiang-component-user-admin-core`，提供：
 
 - `/system/user/**` 登录、选空间、员工 CRUD、密码和用户字典接口。
+- `/merchant/space-user/**` 当前空间用户的创建、列表、启停和重置密码接口。
 - `/system/role/dict` 角色字典接口。
 - 商户会话校验、访问日志和异常响应。
 - `MerchantDirectoryPort`、`MerchantUserSpacePort` 两个宿主业务库端口。

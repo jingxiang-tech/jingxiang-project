@@ -111,6 +111,11 @@ public class UserMemberBrief {
     private Integer forbidden;
 
     /**
+     * 成员备注
+     */
+    private String remark;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createdAt;

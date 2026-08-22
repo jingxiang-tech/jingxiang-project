@@ -39,6 +39,7 @@ public interface UserMemberMapper extends BaseMapper<UserMemberPo> {
                 u.created_at AS user_created_at,
                 u.updated_at AS user_updated_at,
                 m.forbidden,
+                m.remark,
                 m.created_at
             FROM user_member m
             INNER JOIN user u ON u.user_id = m.user_id AND u.deleted = 0
@@ -71,6 +72,7 @@ public interface UserMemberMapper extends BaseMapper<UserMemberPo> {
                 u.created_at AS user_created_at,
                 u.updated_at AS user_updated_at,
                 m.forbidden,
+                m.remark,
                 m.created_at
             FROM user_member m
             INNER JOIN user u ON u.user_id = m.user_id AND u.deleted = 0
