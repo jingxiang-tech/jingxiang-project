@@ -105,10 +105,10 @@ public SessionSupport<SessionUser> sessionSupport(JwtCodec jwtCodec) {
 
 组件结构如下：
 
-- `jingxiang-component-user-common`：用户通用核心，供 for-app 与 admin-core 共同依赖
-- `jingxiang-component-user-admin-common`：共享管理核心，仅依赖 common
-- `jingxiang-component-user-admin-for-merchant`：商户后台用户接口、会话、访问日志与业务端口
-- `jingxiang-component-user-admin-for-platform`：平台端商户用户 CRUD、空间授权和 OWNER 开户编排
+- `jingxiang-component-user-common`：用户通用核心，供 for-app 与 manager-common 共同依赖
+- `jingxiang-component-user-manager-common`：共享管理核心，仅依赖 common
+- `jingxiang-component-user-manager-for-merchant`：商户后台用户接口、会话、访问日志与业务端口
+- `jingxiang-component-user-manager-for-platform`：平台端商户用户 CRUD、空间授权和 OWNER 开户编排
 
 商户端和平台端分别依赖对应 Starter；两个 Starter 都通过 Port 访问宿主业务库，不扫描宿主 Mapper。
 跨用户库与业务库的流程不得由单个 `@Transactional` 包裹，使用本地事务、幂等写入和失败补偿。
