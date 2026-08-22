@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 统一用户基础服务实现
@@ -124,7 +125,7 @@ public class UserServiceImpl implements UserService {
             return Collections.emptyList();
         }
         List<Long> distinctUserIds = userIds.stream()
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .distinct()
                 .toList();
         if (distinctUserIds.isEmpty()) {
