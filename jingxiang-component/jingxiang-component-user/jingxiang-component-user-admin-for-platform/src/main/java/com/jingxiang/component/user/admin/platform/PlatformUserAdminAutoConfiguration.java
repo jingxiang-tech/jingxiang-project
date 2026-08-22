@@ -1,10 +1,10 @@
 package com.jingxiang.component.user.admin.platform;
 
 import com.jingxiang.component.user.UserCoreAutoConfiguration;
-import com.jingxiang.component.user.admin.core.UserAdminCoreAutoConfiguration;
-import com.jingxiang.component.user.admin.core.service.UserAdminService;
-import com.jingxiang.component.user.admin.core.service.UserMemberService;
-import com.jingxiang.component.user.admin.core.service.UserTenantService;
+import com.jingxiang.component.user.admin.common.UserAdminCoreAutoConfiguration;
+import com.jingxiang.component.user.admin.common.service.UserAdminService;
+import com.jingxiang.component.user.admin.common.service.UserMemberService;
+import com.jingxiang.component.user.admin.common.service.UserTenantService;
 import com.jingxiang.component.user.admin.platform.controller.PlatformMerchantSpaceUserController;
 import com.jingxiang.component.user.admin.platform.controller.PlatformMerchantUserController;
 import com.jingxiang.component.user.admin.platform.port.PlatformMerchantDirectoryPort;

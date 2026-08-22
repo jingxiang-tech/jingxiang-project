@@ -1,14 +1,14 @@
 package com.jingxiang.component.user.admin.platform.service.impl;
 
 import com.jingxiang.commons.model.dto.R;
-import com.jingxiang.component.user.admin.core.dict.MemberTypeEnum;
-import com.jingxiang.component.user.admin.core.dict.TenantTypeEnum;
-import com.jingxiang.component.user.admin.core.model.member.UserMemberCreate;
-import com.jingxiang.component.user.admin.core.model.member.UserMemberPo;
-import com.jingxiang.component.user.admin.core.model.member.UserMemberUpdate;
-import com.jingxiang.component.user.admin.core.service.UserAdminService;
-import com.jingxiang.component.user.admin.core.service.UserMemberService;
-import com.jingxiang.component.user.admin.core.service.UserTenantService;
+import com.jingxiang.component.user.admin.common.dict.MemberTypeEnum;
+import com.jingxiang.component.user.admin.common.dict.TenantTypeEnum;
+import com.jingxiang.component.user.admin.common.model.member.UserMemberCreate;
+import com.jingxiang.component.user.admin.common.model.member.UserMemberPo;
+import com.jingxiang.component.user.admin.common.model.member.UserMemberUpdate;
+import com.jingxiang.component.user.admin.common.service.UserAdminService;
+import com.jingxiang.component.user.admin.common.service.UserMemberService;
+import com.jingxiang.component.user.admin.common.service.UserTenantService;
 import com.jingxiang.component.user.admin.platform.port.PlatformMerchantUserSpacePort;
 import com.jingxiang.component.user.admin.platform.service.PlatformMerchantOnboardingService;
 import com.jingxiang.component.user.model.user.UserBrief;

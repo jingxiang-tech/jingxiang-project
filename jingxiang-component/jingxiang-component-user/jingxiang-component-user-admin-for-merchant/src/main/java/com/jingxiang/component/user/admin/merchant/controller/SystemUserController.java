@@ -3,7 +3,7 @@ package com.jingxiang.component.user.admin.merchant.controller;
 import com.jingxiang.commons.model.dto.Dict;
 import com.jingxiang.commons.model.dto.Page;
 import com.jingxiang.commons.model.dto.R;
-import com.jingxiang.component.user.admin.core.model.member.UserMemberBrief;
+import com.jingxiang.component.user.admin.common.model.member.UserMemberBrief;
 import com.jingxiang.component.user.admin.merchant.model.*;
 import com.jingxiang.component.user.admin.merchant.service.SystemUserService;
 import jakarta.validation.Valid;

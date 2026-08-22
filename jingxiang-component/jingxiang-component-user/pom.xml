@@ -14,7 +14,7 @@
     <modules>
         <module>jingxiang-component-user-common</module>
         <module>jingxiang-component-user-for-app</module>
-        <module>jingxiang-component-user-admin-core</module>
+        <module>jingxiang-component-user-admin-common</module>
         <module>jingxiang-component-user-admin-for-merchant</module>
         <module>jingxiang-component-user-admin-for-platform</module>
     </modules>

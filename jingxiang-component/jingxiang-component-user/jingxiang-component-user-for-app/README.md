@@ -106,7 +106,7 @@ public SessionSupport<SessionUser> sessionSupport(JwtCodec jwtCodec) {
 组件结构如下：
 
 - `jingxiang-component-user-common`：用户通用核心，供 for-app 与 admin-core 共同依赖
-- `jingxiang-component-user-admin-core`：共享管理核心，仅依赖 common
+- `jingxiang-component-user-admin-common`：共享管理核心，仅依赖 common
 - `jingxiang-component-user-admin-for-merchant`：商户后台用户接口、会话、访问日志与业务端口
 - `jingxiang-component-user-admin-for-platform`：平台端商户用户 CRUD、空间授权和 OWNER 开户编排
 

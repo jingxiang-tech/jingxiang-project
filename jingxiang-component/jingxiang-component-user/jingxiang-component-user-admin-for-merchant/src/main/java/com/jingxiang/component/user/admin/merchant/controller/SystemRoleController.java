@@ -2,7 +2,7 @@ package com.jingxiang.component.user.admin.merchant.controller;
 
 import com.jingxiang.commons.model.dto.Dict;
 import com.jingxiang.commons.model.dto.R;
-import com.jingxiang.component.user.admin.core.dict.MemberTypeEnum;
+import com.jingxiang.component.user.admin.common.dict.MemberTypeEnum;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

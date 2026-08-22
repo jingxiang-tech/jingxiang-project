@@ -22,7 +22,7 @@ Mapper 扫描按包名工作。客户端同时依赖本模块与 `jingxiang-comp
 
 ## 依赖关系
 
-`jingxiang-component-user-for-app` 和 `jingxiang-component-user-admin-core` 均直接依赖本模块。
+`jingxiang-component-user-for-app` 和 `jingxiang-component-user-admin-common` 均直接依赖本模块。
 管理端 merchant/platform 通过 admin-core 传递依赖本模块。
 
 写操作使用 `@UserTransactional`，确保绑定用户库事务管理器。
