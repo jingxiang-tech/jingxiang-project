@@ -9,11 +9,11 @@ import com.jingxiang.component.user.admin.core.model.member.UserMemberPo;
 import com.jingxiang.component.user.admin.core.model.member.UserMemberQuery;
 import com.jingxiang.component.user.admin.core.service.UserAdminService;
 import com.jingxiang.component.user.admin.core.service.UserMemberService;
-import com.jingxiang.component.user.admin.merchant.model.SpaceUserBrief;
-import com.jingxiang.component.user.admin.merchant.model.SpaceUserCreate;
-import com.jingxiang.component.user.admin.merchant.model.SpaceUserPasswordUpdate;
-import com.jingxiang.component.user.admin.merchant.model.SpaceUserStatusUpdate;
-import com.jingxiang.component.user.admin.merchant.model.UsernameExistsBrief;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserBrief;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserCreate;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserDisabledUpdate;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserPasswordUpdate;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserUsernameExistsBrief;
 import com.jingxiang.component.user.admin.merchant.service.MerchantSpaceUserService;
 import com.jingxiang.component.user.jwt.SessionUtil;
 import com.jingxiang.component.user.model.user.UserCreate;
@@ -50,24 +50,24 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
     private UserMemberService userMemberService;
 
     @Override
-    public R<String> create(SpaceUserCreate request) {
+    public R<String> create(MerchantSpaceUserCreate request) {
         if (!SessionUtil.isSpaceAdmin()) {
             return R.fail("仅管理员可创建空间用户");
         }
-        String username = trimToNull(request.getUsername());
+        String userName = trimToNull(request.getUserName());
         String password = trimToNull(request.getPassword());
-        if (username == null || password == null) {
+        if (userName == null || password == null) {
             return R.fail("用户名或密码不能为空");
         }
-        if (userService.getByUserName(username) != null) {
+        if (userService.getByUserName(userName) != null) {
             return R.fail("创建失败，用户名可能已存在");
         }
 
         UserCreate create = new UserCreate();
-        create.setUserName(username);
+        create.setUserName(userName);
         create.setPassword(password);
         create.setNickname(trimToNull(request.getNickname()));
-        create.setTel(trimToNull(request.getMobile()));
+        create.setTel(trimToNull(request.getTel()));
         create.setEmail(trimToNull(request.getEmail()));
         create.setRemark(trimToNull(request.getRemark()));
         R<Long> createResult = userService.create(create);
@@ -90,18 +90,18 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
     }
 
     @Override
-    public R<UsernameExistsBrief> usernameExists(String username) {
+    public R<MerchantSpaceUserUsernameExistsBrief> usernameExists(String username) {
         if (!SessionUtil.isSpaceAdmin()) {
             return R.fail("仅管理员可校验账号");
         }
-        UsernameExistsBrief brief = new UsernameExistsBrief();
+        MerchantSpaceUserUsernameExistsBrief brief = new MerchantSpaceUserUsernameExistsBrief();
         String validUsername = trimToNull(username);
         brief.setExists(validUsername != null && userService.getByUserName(validUsername) != null);
         return R.ok(brief);
     }
 
     @Override
-    public R<List<SpaceUserBrief>> list() {
+    public R<List<MerchantSpaceUserBrief>> list() {
         if (!SessionUtil.isSpaceAdmin()) {
             return R.fail("仅管理员可查看空间用户");
         }
@@ -114,7 +114,7 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
             return R.ok(Collections.emptyList());
         }
         String creatorKey = String.valueOf(creatorUserId);
-        List<SpaceUserBrief> list = result.getData().stream()
+        List<MerchantSpaceUserBrief> list = result.getData().stream()
                 .filter(item -> creatorKey.equals(resolveCreatorRemark(item)))
                 .map(this::toBrief)
                 .toList();
@@ -122,18 +122,19 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
     }
 
     @Override
-    public R<String> updateStatus(SpaceUserStatusUpdate request) {
+    public R<String> updateDisabled(MerchantSpaceUserDisabledUpdate request) {
         if (!SessionUtil.isSpaceAdmin()) {
             return R.fail("仅管理员可修改空间用户状态");
         }
-        if (request.getStatus() != 0 && request.getStatus() != 1) {
-            return R.fail("状态仅支持0或1");
+        if (!Objects.equals(request.getDisabled(), 0) && !Objects.equals(request.getDisabled(), 1)) {
+            return R.fail("禁用状态仅支持0或1");
         }
         UserMemberPo spaceUser = requireOwnedSpaceUser(SessionUtil.getUserId(), request.getUserId());
         if (spaceUser == null) {
             return R.fail("更新失败，目标用户可能不存在");
         }
-        R<?> result = userAdminService.setForbidden(request.getUserId().longValue(), request.getStatus() == 0);
+        R<?> result = userAdminService.setForbidden(
+                request.getUserId().longValue(), Objects.equals(request.getDisabled(), 1));
         if (result.failed()) {
             return R.fail(result.getMsg() != null ? result.getMsg() : "更新失败，目标用户可能不存在");
         }
@@ -141,7 +142,7 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
     }
 
     @Override
-    public R<String> resetPassword(SpaceUserPasswordUpdate request) {
+    public R<String> resetPassword(MerchantSpaceUserPasswordUpdate request) {
         if (!SessionUtil.isSpaceAdmin()) {
             return R.fail("仅管理员可重置空间用户密码");
         }
@@ -163,24 +164,24 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
         return R.ok("重置成功");
     }
 
-    private SpaceUserBrief toBrief(UserMemberBrief member) {
-        SpaceUserBrief row = new SpaceUserBrief();
-        row.setId(member.getUserId());
-        row.setUsername(member.getUserName());
-        row.setNickname(member.getNickname());
-        row.setMobile(member.getTel());
-        row.setEmail(member.getEmail());
-        row.setStatus(Integer.valueOf(WhetherDict.Yes.code).equals(member.getUserForbidden()) ? 0 : 1);
-        row.setCreatedAt(member.getCreatedAt());
+    private MerchantSpaceUserBrief toBrief(UserMemberBrief member) {
+        MerchantSpaceUserBrief brief = new MerchantSpaceUserBrief();
+        brief.setUserId(member.getUserId());
+        brief.setUserName(member.getUserName());
+        brief.setNickname(member.getNickname());
+        brief.setTel(member.getTel());
+        brief.setEmail(member.getEmail());
+        brief.setDisabled(member.getUserForbidden());
+        brief.setCreateTime(member.getCreatedAt());
         String remark = resolveCreatorRemark(member);
         if (StringUtils.hasText(remark)) {
             try {
-                row.setCreatorUserId(Long.parseLong(remark));
+                brief.setCreatorUserId(Long.parseLong(remark));
             } catch (NumberFormatException ignored) {
-                row.setCreatorUserId(null);
+                brief.setCreatorUserId(null);
             }
         }
-        return row;
+        return brief;
     }
 
     private String resolveCreatorRemark(UserMemberBrief member) {

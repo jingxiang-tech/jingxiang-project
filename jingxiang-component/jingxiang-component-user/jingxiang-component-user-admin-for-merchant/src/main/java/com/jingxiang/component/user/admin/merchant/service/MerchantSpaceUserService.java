@@ -1,11 +1,11 @@
 package com.jingxiang.component.user.admin.merchant.service;
 
 import com.jingxiang.commons.model.dto.R;
-import com.jingxiang.component.user.admin.merchant.model.SpaceUserBrief;
-import com.jingxiang.component.user.admin.merchant.model.SpaceUserCreate;
-import com.jingxiang.component.user.admin.merchant.model.SpaceUserPasswordUpdate;
-import com.jingxiang.component.user.admin.merchant.model.SpaceUserStatusUpdate;
-import com.jingxiang.component.user.admin.merchant.model.UsernameExistsBrief;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserBrief;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserCreate;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserDisabledUpdate;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserPasswordUpdate;
+import com.jingxiang.component.user.admin.merchant.model.MerchantSpaceUserUsernameExistsBrief;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ import java.util.List;
  */
 public interface MerchantSpaceUserService {
 
-    R<String> create(SpaceUserCreate request);
+    R<String> create(MerchantSpaceUserCreate request);
 
-    R<UsernameExistsBrief> usernameExists(String username);
+    R<MerchantSpaceUserUsernameExistsBrief> usernameExists(String username);
 
-    R<List<SpaceUserBrief>> list();
+    R<List<MerchantSpaceUserBrief>> list();
 
-    R<String> updateStatus(SpaceUserStatusUpdate request);
+    R<String> updateDisabled(MerchantSpaceUserDisabledUpdate request);
 
-    R<String> resetPassword(SpaceUserPasswordUpdate request);
+    R<String> resetPassword(MerchantSpaceUserPasswordUpdate request);
 }

@@ -6,34 +6,34 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * 空间用户列表项。
+ * 商户空间用户列表项。
  *
  * @author chenjw
  */
 @Getter
 @Setter
-public class SpaceUserBrief {
+public class MerchantSpaceUserBrief {
 
     /** 用户ID。 */
-    private Long id;
+    private Long userId;
 
     /** 用户名。 */
-    private String username;
+    private String userName;
 
     /** 昵称。 */
     private String nickname;
 
     /** 手机号。 */
-    private String mobile;
+    private String tel;
 
     /** 邮箱。 */
     private String email;
 
-    /** 状态：0禁用 1启用。 */
-    private Integer status;
+    /** 是否禁用。 */
+    private Integer disabled;
 
     /** 创建时间。 */
-    private LocalDateTime createdAt;
+    private LocalDateTime createTime;
 
     /** 创建人用户ID。 */
     private Long creatorUserId;

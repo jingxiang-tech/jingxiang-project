@@ -7,16 +7,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 重置空间用户密码。
+ * 商户空间用户密码更新参数。
  *
  * @author chenjw
  */
 @Getter
 @Setter
-public class SpaceUserPasswordUpdate {
+public class MerchantSpaceUserPasswordUpdate {
 
-    /** 空间用户ID。 */
-    @NotNull(message = "userId不能为空")
+    /** 用户ID。 */
+    @NotNull(message = "用户ID不能为空")
     private Integer userId;
 
     /** 新密码。 */
