@@ -115,12 +115,19 @@ public class UserMemberServiceImpl implements UserMemberService {
         if (roleNameDesc == null && roleCodeList != null) {
             roleNameDesc = MemberRoleEnum.namesOf(roleCodeList);
         }
-        userMemberMapper.update(null, new LambdaUpdateWrapper<UserMemberPo>()
-                .eq(UserMemberPo::getMemberId, update.getMemberId())
-                .set(roleCodeList != null, UserMemberPo::getRoleCodeList, roleCodeList)
-                .set(roleNameDesc != null, UserMemberPo::getRoleNameDesc, roleNameDesc)
-                .set(update.getRemark() != null, UserMemberPo::getRemark, update.getRemark())
-                .set(UserMemberPo::getUpdatedAt, LocalDateTime.now()));
+        UserMemberPo po = new UserMemberPo();
+        po.setMemberId(update.getMemberId());
+        if (roleCodeList != null) {
+            po.setRoleCodeList(roleCodeList);
+        }
+        if (roleNameDesc != null) {
+            po.setRoleNameDesc(roleNameDesc);
+        }
+        if (update.getRemark() != null) {
+            po.setRemark(update.getRemark());
+        }
+        po.setUpdatedAt(LocalDateTime.now());
+        userMemberMapper.updateById(po);
         return R.ok("修改成功");
     }
 

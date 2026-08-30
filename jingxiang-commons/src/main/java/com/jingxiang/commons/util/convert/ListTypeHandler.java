@@ -27,13 +27,12 @@ public class ListTypeHandler extends BaseTypeHandler<List> {
      */
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, List parameter, JdbcType jdbcType) throws SQLException {
-//		String value = parameter.toString();
-//		if (jdbcType == null) {
-//			ps.setObject(i, value);
-//		} else {
-//			ps.setObject(i, value, jdbcType.TYPE_CODE);
-//		}
-        ps.setObject(i, JSON.toJSONString(parameter, JSONWriter.Feature.WriteEnumUsingToString));
+        String json = JSON.toJSONString(parameter, JSONWriter.Feature.WriteEnumUsingToString);
+        if (jdbcType == null) {
+            ps.setString(i, json);
+        } else {
+            ps.setObject(i, json, jdbcType.TYPE_CODE);
+        }
     }
 
     /**

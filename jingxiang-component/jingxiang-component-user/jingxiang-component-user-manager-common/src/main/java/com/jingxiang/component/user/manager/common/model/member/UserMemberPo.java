@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.jingxiang.commons.util.convert.ListTypeHandler;
 import lombok.*;
+import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,7 +46,7 @@ public class UserMemberPo {
     /**
      * 角色编码列表
      */
-    @TableField(typeHandler = ListTypeHandler.class)
+    @TableField(typeHandler = ListTypeHandler.class, jdbcType = JdbcType.VARCHAR)
     private List<String> roleCodeList;
 
     /**
