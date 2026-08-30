@@ -29,7 +29,7 @@ public interface UserMemberService {
     R<?> setForbidden(Long memberId, boolean forbidden);
 
     /**
-     * 修改成员类型/名称
+     * 修改成员角色
      */
     R<?> update(UserMemberUpdate update);
 

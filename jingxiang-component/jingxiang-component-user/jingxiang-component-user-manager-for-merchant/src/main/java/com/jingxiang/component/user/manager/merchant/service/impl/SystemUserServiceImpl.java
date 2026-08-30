@@ -4,7 +4,7 @@ import com.jingxiang.commons.model.dto.Dict;
 import com.jingxiang.commons.model.dto.Page;
 import com.jingxiang.commons.model.dto.R;
 import com.jingxiang.commons.model.dto.ResultStatus;
-import com.jingxiang.component.user.manager.common.dict.MemberTypeEnum;
+import com.jingxiang.component.user.manager.common.dict.MemberRoleEnum;
 import com.jingxiang.component.user.manager.common.dict.TenantTypeEnum;
 import com.jingxiang.component.user.manager.common.model.member.*;
 import com.jingxiang.component.user.manager.common.model.tenant.UserTenantBrief;
@@ -247,8 +247,8 @@ public class SystemUserServiceImpl implements SystemUserService {
             return R.fail("无权限操作该用户");
         }
         if (!CollectionUtils.isEmpty(update.getRole())
-                && update.getRole().contains(MemberTypeEnum.OWNER.code)
-                && !MemberTypeEnum.contains(member.getRoleCodeList(), MemberTypeEnum.OWNER)) {
+                && update.getRole().contains(MemberRoleEnum.OWNER.code)
+                && !MemberRoleEnum.contains(member.getRoleCodeList(), MemberRoleEnum.OWNER)) {
             return R.fail("管理员角色不允许修改");
         }
         R<?> userResult = userService.update(toUserUpdate(update));
@@ -413,8 +413,8 @@ public class SystemUserServiceImpl implements SystemUserService {
     }
 
     private List<String> resolveRoleCodes(List<String> roles) {
-        List<String> codes = MemberTypeEnum.normalizeCodes(roles);
-        return codes.isEmpty() ? List.of(MemberTypeEnum.MEMBER.code) : codes;
+        List<String> codes = MemberRoleEnum.normalizeCodes(roles);
+        return codes.isEmpty() ? List.of(MemberRoleEnum.MEMBER.code) : codes;
     }
 
     private void compensateInsert(Long userId, String merchantNo, List<UserSpace> addedSpaces,

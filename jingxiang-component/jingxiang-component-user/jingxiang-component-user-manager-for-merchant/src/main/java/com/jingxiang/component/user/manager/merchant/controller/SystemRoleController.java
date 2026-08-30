@@ -2,7 +2,7 @@ package com.jingxiang.component.user.manager.merchant.controller;
 
 import com.jingxiang.commons.model.dto.Dict;
 import com.jingxiang.commons.model.dto.R;
-import com.jingxiang.component.user.manager.common.dict.MemberTypeEnum;
+import com.jingxiang.component.user.manager.common.dict.MemberRoleEnum;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +21,9 @@ public class SystemRoleController {
 
     @GetMapping("dict")
     public R<List<Dict>> dict() {
-        List<Dict> dicts = Arrays.stream(MemberTypeEnum.values()).map(memberType -> {
-            Dict dict = new Dict();
-            dict.setCode(memberType.code);
-            dict.setName(memberType.name);
-            return dict;
-        }).toList();
+        List<Dict> dicts = Arrays.stream(MemberRoleEnum.values())
+                .map(role -> new Dict(role.code, role.name))
+                .toList();
         return R.ok(dicts);
     }
 }

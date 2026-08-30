@@ -1,7 +1,7 @@
 package com.jingxiang.component.user.manager.platform.service.impl;
 
 import com.jingxiang.commons.model.dto.R;
-import com.jingxiang.component.user.manager.common.dict.MemberTypeEnum;
+import com.jingxiang.component.user.manager.common.dict.MemberRoleEnum;
 import com.jingxiang.component.user.manager.common.dict.TenantTypeEnum;
 import com.jingxiang.component.user.manager.common.model.member.UserMemberCreate;
 import com.jingxiang.component.user.manager.common.model.member.UserMemberPo;
@@ -79,22 +79,22 @@ public class PlatformMerchantOnboardingServiceImpl implements PlatformMerchantOn
                 UserMemberCreate memberCreate = new UserMemberCreate();
                 memberCreate.setUserId(userId);
                 memberCreate.setTenantId(tenantId);
-                memberCreate.setRoleCodeList(List.of(MemberTypeEnum.OWNER.code));
-                memberCreate.setRoleNameDesc(MemberTypeEnum.OWNER.name);
+                memberCreate.setRoleCodeList(List.of(MemberRoleEnum.OWNER.code));
+                memberCreate.setRoleNameDesc(MemberRoleEnum.OWNER.name);
                 R<Long> memberResult = userMemberService.add(memberCreate);
                 if (memberResult.failed()) {
                     compensate(userId, userCreated, null);
                     return R.fail(memberResult.getMsg());
                 }
                 createdMemberId = memberResult.getData();
-            } else if (!MemberTypeEnum.contains(member.getRoleCodeList(), MemberTypeEnum.OWNER)) {
+            } else if (!MemberRoleEnum.contains(member.getRoleCodeList(), MemberRoleEnum.OWNER)) {
                 updatedMemberId = member.getMemberId();
                 previousRoleCodeList = member.getRoleCodeList();
                 previousRoleNameDesc = member.getRoleNameDesc();
                 UserMemberUpdate memberUpdate = new UserMemberUpdate();
                 memberUpdate.setMemberId(member.getMemberId());
-                memberUpdate.setRoleCodeList(List.of(MemberTypeEnum.OWNER.code));
-                memberUpdate.setRoleNameDesc(MemberTypeEnum.OWNER.name);
+                memberUpdate.setRoleCodeList(List.of(MemberRoleEnum.OWNER.code));
+                memberUpdate.setRoleNameDesc(MemberRoleEnum.OWNER.name);
                 R<?> updateResult = userMemberService.update(memberUpdate);
                 if (updateResult.failed()) {
                     compensate(userId, userCreated, null);

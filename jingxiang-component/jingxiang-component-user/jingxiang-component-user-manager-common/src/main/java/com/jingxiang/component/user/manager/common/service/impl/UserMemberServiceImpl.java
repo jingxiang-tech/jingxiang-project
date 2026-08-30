@@ -7,7 +7,7 @@ import com.jingxiang.commons.model.dto.Page;
 import com.jingxiang.commons.model.dto.R;
 import com.jingxiang.commons.util.PageUtil;
 import com.jingxiang.component.user.manager.common.dao.UserMemberMapper;
-import com.jingxiang.component.user.manager.common.dict.MemberTypeEnum;
+import com.jingxiang.component.user.manager.common.dict.MemberRoleEnum;
 import com.jingxiang.component.user.manager.common.model.member.*;
 import com.jingxiang.component.user.manager.common.model.tenant.UserTenantPo;
 import com.jingxiang.component.user.model.user.UserPo;
@@ -59,7 +59,7 @@ public class UserMemberServiceImpl implements UserMemberService {
             return R.fail("该用户已是组织成员");
         }
 
-        List<String> roleCodeList = MemberTypeEnum.normalizeCodes(create.getRoleCodeList());
+        List<String> roleCodeList = MemberRoleEnum.normalizeCodes(create.getRoleCodeList());
         if (roleCodeList.isEmpty()) {
             return R.fail("角色编码不能为空");
         }
@@ -107,13 +107,13 @@ public class UserMemberServiceImpl implements UserMemberService {
     public R<?> update(UserMemberUpdate update) {
         requireMember(update.getMemberId());
         List<String> roleCodeList = update.getRoleCodeList() == null
-                ? null : MemberTypeEnum.normalizeCodes(update.getRoleCodeList());
+                ? null : MemberRoleEnum.normalizeCodes(update.getRoleCodeList());
         if (update.getRoleCodeList() != null && roleCodeList.isEmpty()) {
             return R.fail("角色编码不能为空");
         }
         String roleNameDesc = update.getRoleNameDesc();
         if (roleNameDesc == null && roleCodeList != null) {
-            roleNameDesc = MemberTypeEnum.namesOf(roleCodeList);
+            roleNameDesc = MemberRoleEnum.namesOf(roleCodeList);
         }
         userMemberMapper.update(null, new LambdaUpdateWrapper<UserMemberPo>()
                 .eq(UserMemberPo::getMemberId, update.getMemberId())
@@ -172,6 +172,6 @@ public class UserMemberServiceImpl implements UserMemberService {
         if (roleNameDesc != null && !roleNameDesc.isBlank()) {
             return roleNameDesc.trim();
         }
-        return MemberTypeEnum.namesOf(roleCodeList);
+        return MemberRoleEnum.namesOf(roleCodeList);
     }
 }

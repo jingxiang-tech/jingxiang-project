@@ -1,7 +1,7 @@
 package com.jingxiang.component.user.manager.platform.service.impl;
 
 import com.jingxiang.commons.model.dto.R;
-import com.jingxiang.component.user.manager.common.dict.MemberTypeEnum;
+import com.jingxiang.component.user.manager.common.dict.MemberRoleEnum;
 import com.jingxiang.component.user.manager.common.dict.TenantTypeEnum;
 import com.jingxiang.component.user.manager.common.model.member.UserMemberBrief;
 import com.jingxiang.component.user.manager.common.model.member.UserMemberCreate;
@@ -110,7 +110,7 @@ public class PlatformMerchantUserServiceImpl implements PlatformMerchantUserServ
             UserMemberCreate memberCreate = new UserMemberCreate();
             memberCreate.setUserId(userId);
             memberCreate.setTenantId(tenantId);
-            memberCreate.setRoleCodeList(List.of(MemberTypeEnum.MEMBER.code));
+            memberCreate.setRoleCodeList(List.of(MemberRoleEnum.MEMBER.code));
             R<Long> memberResult = userMemberService.add(memberCreate);
             if (memberResult.failed()) {
                 compensateCreatedUser(userId, null);

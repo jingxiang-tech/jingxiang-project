@@ -4,7 +4,7 @@
 
 - `/system/user/**` 登录、选空间、员工 CRUD、密码和用户字典接口。
 - `/merchant/space-user/**` 当前空间用户的创建、列表、启停和重置密码接口。
-- `/user-member/**` 组织成员创建、列表、启停和重置密码。
+- `/user-member/**` 组织成员创建、列表、启停、重置密码和角色分配。
   `UserMemberAutoConfiguration` 只依赖 JWT 与用户库服务，不要求两个 Port。
 - `/system/role/dict` 角色字典接口。
 - 商户会话校验、访问日志和异常响应。

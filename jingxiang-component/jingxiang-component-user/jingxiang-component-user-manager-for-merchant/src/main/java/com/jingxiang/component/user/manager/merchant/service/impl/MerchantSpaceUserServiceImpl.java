@@ -2,7 +2,7 @@ package com.jingxiang.component.user.manager.merchant.service.impl;
 
 import com.jingxiang.commons.model.dict.WhetherDict;
 import com.jingxiang.commons.model.dto.R;
-import com.jingxiang.component.user.manager.common.dict.MemberTypeEnum;
+import com.jingxiang.component.user.manager.common.dict.MemberRoleEnum;
 import com.jingxiang.component.user.manager.common.model.member.UserMemberBrief;
 import com.jingxiang.component.user.manager.common.model.member.UserMemberCreate;
 import com.jingxiang.component.user.manager.common.model.member.UserMemberPo;
@@ -78,8 +78,8 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
         UserMemberCreate memberCreate = new UserMemberCreate();
         memberCreate.setUserId(createResult.getData());
         memberCreate.setTenantId(SessionUtil.getTenantId());
-        memberCreate.setRoleCodeList(List.of(MemberTypeEnum.OPERATOR.code));
-        memberCreate.setRoleNameDesc(MemberTypeEnum.OPERATOR.name);
+        memberCreate.setRoleCodeList(List.of(MemberRoleEnum.OPERATOR.code));
+        memberCreate.setRoleNameDesc(MemberRoleEnum.OPERATOR.name);
         memberCreate.setRemark(String.valueOf(SessionUtil.getUserId()));
         R<Long> memberResult = userMemberService.add(memberCreate);
         if (memberResult.failed()) {
@@ -108,7 +108,7 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
         Integer creatorUserId = SessionUtil.getUserId();
         UserMemberQuery query = new UserMemberQuery();
         query.setTenantId(SessionUtil.getTenantId());
-        query.setRoleCode(MemberTypeEnum.OPERATOR.code);
+        query.setRoleCode(MemberRoleEnum.OPERATOR.code);
         R<List<UserMemberBrief>> result = userMemberService.listAll(query);
         if (result.failed() || result.getData() == null) {
             return R.ok(Collections.emptyList());
@@ -193,7 +193,7 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
     }
 
     /**
-     * 校验空间用户归属：成员类型为 OPERATOR，且 remark 为创建人 userId。
+     * 校验空间用户归属：角色为 OPERATOR，且 remark 为创建人 userId。
      */
     private UserMemberPo requireOwnedSpaceUser(Integer adminUserId, Integer userId) {
         if (adminUserId == null || userId == null) {
@@ -204,7 +204,7 @@ public class MerchantSpaceUserServiceImpl implements MerchantSpaceUserService {
         if (member == null || WhetherDict.Yes.code == member.getForbidden()) {
             return null;
         }
-        if (!MemberTypeEnum.contains(member.getRoleCodeList(), MemberTypeEnum.OPERATOR)) {
+        if (!MemberRoleEnum.contains(member.getRoleCodeList(), MemberRoleEnum.OPERATOR)) {
             return null;
         }
         if (!Objects.equals(String.valueOf(adminUserId), member.getRemark())) {

@@ -1,10 +1,12 @@
 package com.jingxiang.component.user.manager.merchant.controller;
 
+import com.jingxiang.commons.model.dto.Dict;
 import com.jingxiang.commons.model.dto.R;
 import com.jingxiang.component.user.manager.merchant.model.member.UserMemberBrief;
 import com.jingxiang.component.user.manager.merchant.model.member.UserMemberCreate;
 import com.jingxiang.component.user.manager.merchant.model.member.UserMemberDisabledUpdate;
 import com.jingxiang.component.user.manager.merchant.model.member.UserMemberPasswordUpdate;
+import com.jingxiang.component.user.manager.merchant.model.member.UserMemberRolesUpdate;
 import com.jingxiang.component.user.manager.merchant.model.member.UserMemberUsernameExistsBrief;
 import com.jingxiang.component.user.manager.merchant.service.UserMemberManageService;
 import jakarta.validation.Valid;
@@ -48,7 +50,7 @@ public class UserMemberController {
     }
 
     /**
-     * 查询当前租户运营成员列表
+     * 查询当前租户组织成员列表
      */
     @GetMapping
     public R<List<UserMemberBrief>> list() {
@@ -69,5 +71,21 @@ public class UserMemberController {
     @PutMapping("password")
     public R<String> resetPassword(@RequestBody @Valid UserMemberPasswordUpdate request) {
         return userMemberManageService.resetPassword(request);
+    }
+
+    /**
+     * 更新组织成员角色
+     */
+    @PutMapping("roles")
+    public R<String> updateRoles(@RequestBody @Valid UserMemberRolesUpdate request) {
+        return userMemberManageService.updateRoles(request);
+    }
+
+    /**
+     * 组织成员可分配角色字典
+     */
+    @GetMapping("role-dict")
+    public R<List<Dict>> roleDict() {
+        return userMemberManageService.roleDict();
     }
 }

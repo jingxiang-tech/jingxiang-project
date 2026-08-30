@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * 创建组织成员（同时创建用户与 user_member 关系）
  *
@@ -51,4 +53,9 @@ public class UserMemberCreate {
      */
     @Size(max = 500, message = "备注长度不能超过500位")
     private String remark;
+
+    /**
+     * 角色编码列表，不传则默认为运营
+     */
+    private List<String> roleCodeList;
 }
